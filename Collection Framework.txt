@@ -1,0 +1,3204 @@
+*Framework :
+It provides readymade architecture.
+It provides a set of classes and interfaces.
+It is optional
+
+Optional is primarily intended for use as a method return type where there is a clear need to represent "no result," and where using null is likely to cause errors. 
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+*What is collection framework?
+Collection in java is a framework that provides an architeture to store and manipulate the group of objects .
+We have our collection of objects, now we need an organized way to use these collections, therefore we need a framework.
+The Java Collection Framework, first introduced in JDK 1.2 ( Java Development Kit 1.2 ), is an architecture made up of interfaces and classes.
+In simple words, it is like a skeletal structure for components that is ready to use for various programming needs. It also offers different data operations like searching, sorting, insertion, deletion, and manipulation that we can perform on data. All of the classes and interfaces of the collection framework are bundled into the java.util package.
+classes:
+ArrayList , Vector , LikedList , PriorityQueue , Hashset , LinkedHashSet , Treeset.
+Interfaces:
+Iterable , collection , Set , List , Queue ,Deque,SortedSet,NavigableSet
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+*Benefits of the Java Collections Framework:
+
+1]Reusability and Reduces programming effort: Java Collections Framework provides common classes and utility methods than can be used with different types of collections. This promotes the reusability of the code. A developer does not have to re-invent the wheel by writing the same method again.Reduced development effort by using core collection classes rather than implementing our own collection.Thus reducing programming efforts.
+
+3]Quality: Using Java Collection Framework improves the program quality, since the code is already tested and used by thousands of developers.
+
+3]Speed: Most of programmers report that their development speed increased since they can focus on core logic and use the generic collections provided by Java framework.
+
+4]Maintenance: Since most of the Java Collections framework code is open source and API documents is widely available, it is easy to maintain the code written with the help of Java Collections framework. One developer can easily pick the code of previous developer.
+
+5]Reduces effort to learn and to use new APIs: 
+Many APIs naturally take collections on input and furnish them as output. In the past, each such API had a small sub-API devoted to manipulating its collections. There was little consistency among these ad hoc collections sub-APIs, so you had to learn each one from scratch, and it was easy to make mistakes when using them. With the advent of standard collection interfaces, the problem went away.
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+Iterable
+The Iterable interface is the root of the entire collection hierarchy, which means that every class and interface in collection framework implements it.
+The Java Iterable interface represents a collection of objects which is iterable - meaning which can be iterated. This means, that a class that implements the Java Iterable interface can have its elements iterated.You can iterate the objects of a Java Iterable in three ways: Via the , by obtaining a Java Iterator from the Iterable, or by calling the Java Iterable forEach() method and by obtaining a Java Spliterator from the Iterable
+
+Implementing this interface allows an object to be the target of the "for-each loop" statement. The primary function of an iterator is to allow the user to traverse through all of the collection class objects as if they were simple sequences of data items.
+_________________________________________
+
+Methods :
+ForEach()
+Itertor()
+Spliterator()
+_________________________________________
+List<String> list = new ArrayList><();
+
+list.add("one");
+list.add("two");
+list.add("three");
+
+for( String element : list ){
+    System.out.println( element.toString() );
+}
+
+________________________________
+List<String> list = new ArrayList><();
+
+list.add("one");
+list.add("two");
+list.add("three");
+
+list.forEach( (element) -> {
+    System.out.println( element );
+});
+
+_______________________________________
+List<String> list = new ArrayList><();
+
+list.add("one");
+list.add("two");
+list.add("three");
+
+Iterator<String> iterator = list.iterator();
+
+while(iterator.hasNext()) {
+    String element = iterator.next();
+    System.out.println( element );
+}
+
+_____________________________________
+List<String> list = new ArrayList><();
+
+list.add("one");
+list.add("two");
+list.add("three");
+
+Spliterator<String> spliterator = list.spliterator();
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+Iterator:
+It is interface in java.util package.
+Iterator takes place of enumeration in the java collection framework.
+It is smart pointer which is used to traverse the collection.In java , for each is called iterator.
+
+Improvments over enumeration:
+Remove  method.
+method names have been improved(shorter names)
+
+
+we can traverse elements of array of objects which implements iterable interface.
+The Java Iterator interface represents an object capable of iterating through a collection of Java objects, one object at a time. The Iterator interface is one of the oldest mechanisms in Java for iterating collections of objects.
+To use a Java Iterator you will have to obtain an Iterator instance from the collection of objects you want to iterate over. 
+
+
+Method	Description:
+
+hasNext()		Returns true if the Iterator has more elements, and false if not.
+next()			Return the next element from the Iterator
+remove()		Removes the latest element returned from next() from the Collection the Iterator is iterating over.
+forEachRemaining()	Iterates over all remaining elements in the Iterator and calls a Java Lambda Expression passing each remaining element as parameter 			to the lambda expression.
+____________________________________________________
+Obtaining an Iterator:
+you will interact with an Iterator by obtaining it from some Java object that contains multiple nested objects. The standard Java collection interface Collection contains a method called iterator(). By calling iterator() you can obtain an iterator from the given Collection.You can also obtain an Iterator from many of the Java Collection data structures, e.g. a List, Set, Map, Queue, Deque or Map.
+
+List<String> list = new ArrayList<>();
+list.add("one");
+list.add("two");
+list.add("three");
+Iterator<String> iterator = list.iterator();
+
+
+Set<String> set = new HashSet<>();
+set.add("one");
+set.add("two");
+set.add("three");
+Iterator<String> iterator2 = set.iterator();
+____________________________________________________
+Iterating an Iterator:
+Iterator iterator = list.iterator();
+while(iterator.hasNext()) {
+    Object nextObject = iterator.next();
+
+}
+
+_____________________________________________________
+Modification During Iteration:
+Some collections do not allow you to modify the collection while you are iterating it via an Iterator. In that case you will get a ConcurrentModificationException(exception thrown by the methods that have detected concurrent modifiction of an object when such modification is not permissible) the next time you call the Iterator next() method. 
+eg. it is not permissible for one thread to modify collection while another thread is iterating over it.Itertor that do this is known as fail fast iterators.
+List<String> list = new ArrayList<>();
+
+list.add("123");
+list.add("456");
+list.add("789");
+
+Iterator<String> iterator = list.iterator();
+
+while(iterator.hasNext()) {
+    String value = iterator.next();
+
+    if(value.equals("456")){
+        list.add("999");
+    }
+}
+
+The ConcurrentModificationException is thrown because the Iterator gets out of sync with the collection, if you modify the collection while iterating it via the Iterator.
+________________________________________________
+Remove Elements During Iteration:
+The Java Iterator interface has a remove() method which lets you remove the element just returned by next() from the underlying collection. Calling remove() does not cause a ConcurrentModificationException to be thrown.
+
+List<String> list = new ArrayList<>();
+list.add("123");
+list.add("456");
+list.add("789");
+
+Iterator<String> iterator = list.iterator();
+
+while(iterator.hasNext()) {
+    String value = iterator.next();
+
+    if(value.equals("456")){
+        iterator.remove();
+    }
+}
+__________________________________________________
+forEachRemaining():
+The Java Iterator forEachRemaining() method can iterate over all of the elements remaining in the Iterator internally, and for each element call a Java Lambda Expression passed as parameter to forEachRemaining().
+
+List<String> list = new ArrayList<>();
+list.add("Jane");
+list.add("Heidi");
+list.add("Hannah");
+
+Iterator<String> iterator = list.iterator();
+        
+iterator.forEachRemaining((element) -> {
+    System.out.println(element);
+});
+_________________________________________________
+ListIterator:
+Interface declared in java.util package.
+Java also contains an interface called ListIterator which extends the Iterator interface. 
+It is designed to use with only list collection.
+The Java ListIterator interface which represents a bi-directional iterator - meaning an iterator where you can navigate the elements both forward and backwards.
+During traversal we can add and remove elements.
+
+List<String> list = new ArrayList<>();
+list.add("Jane");
+list.add("Heidi");
+list.add("Hannah");
+
+ListIterator<String> listIterator = list.listIterator();
+        
+while(listIterator.hasNext()) {
+    System.out.println(listIterator.next());
+}
+        
+while(listIterator.hasPrevious()) {
+    System.out.println(listIterator.previous());
+}
+
+
+
+	 List<String> list = new ArrayList();
+
+        list.add("one");
+        list.add("two");
+        list.add("three");
+
+        ListIterator<String> iterator = new ListIterator<>(list);
+        while(iterator.hasNext()) {
+            System.out.println( iterator.next() );
+        }
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+Collection:
+The Collection interface extends the Iterable interface. It has the basic methods required for using all the other collections in the framework to add, delete, and manipulate data.
+all the interfaces and classes that extend or implement the Collection interface use these methods along with their own added methods specific to them.
+
+_____________________________________________________________
+The following interfaces (collection types) extends the Java Collection interface:
+List
+Set
+SortedSet
+NavigableSet
+Queue
+Deque
+_____________________________________________________________
+Methods:
+add() - inserts the specified element to the collection
+size() - returns the size of the collection
+remove() - removes the specified element from the collection
+iterator() - returns an iterator to access elements of the collection
+addAll() - adds all the elements of a specified collection to the collection
+removeAll() - removes all the elements of the specified collection from the collection
+clear() - removes all the elements of the collection
+contains()- returns true if the collection contains the element, and false if not.
+containsAll()-returns true if the collection contains all the elements in the parameter collection, and false if not.
+______________________________________________
+String     anElement  = "an element";
+Collection collection = new HashSet();
+boolean didCollectionChange = collection.add(anElement);
+_______________________________________________
+boolean wasElementRemoved = collection.remove("an element");
+_______________________________________________
+Set  aSet  = ... // get Set  with elements from somewhere
+Collection collection = new HashSet();
+collection.addAll(aSet);    //returns boolean too, but ignored here
+collection.removeAll(aSet);    
+_______________________________________________
+The Java Collection retainAll() does the opposite of removeAll(). Instead of removing all the elements found in the parameter Collection, it keeps all these elements, and removes all other elements.
+Collection colA = new ArrayList();
+Collection colB = new ArrayList();
+
+colA.add("A");
+colA.add("B");
+colA.add("C");
+
+colB.add("1");
+colB.add("2");
+colB.add("3");
+
+Collection target = new HashSet();
+
+target.addAll(colA);     //target now contains [A,B,C]
+target.addAll(colB);     //target now contains [A,B,C,1,2,3]
+
+target.retainAll(colB);  //target now contains [1,2,3]
+_____________________________________________________
+Collection collection   = new HashSet();
+boolean containsElement = collection.contains("an element");
+
+Collection elements     = new HashSet();
+boolean containsAll     = collection.containsAll(elements);
+__________________________________________________
+int numberOfElements = collection.size(); 
+____________________________________________________
+Collection collection = new HashSet();
+//... add elements to the collection
+
+Iterator iterator = collection.iterator();
+while(iterator.hasNext()){
+    Object object = iterator.next();
+    System.out.println(object);
+}
+
+Collection collection = new HashSet();
+collection.add("A");
+collection.add("B");
+collection.add("C");
+
+for(Object object : collection) {
+    System.out.println(object);
+}
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+List
+The List interface extends from the Collection interface.The Java List interface, java.util.List, represents an ordered sequence of objects.
+The elements contained in a Java List can be inserted, accessed, iterated and removed according to the order in which they appear internally in the Java List. 
+The ordering of the elements is why this data structure is called a List.The user can use the index number to access a particular element in the list, that is to say, the user has complete control over which element is inserted wherein the list.
+You can add any Java object to a List. If the List is not typed, using Java Generics, then you can even mix objects of different types (classes) in the same List.
+In list collection , we can insert duplicate elements.
+List collection allows to insert multiple null elements.
+We can traverse list using iterator and List Iterator.
+_____________________________________________________________
+List Implementations:
+java.util.ArrayList
+java.util.LinkedList
+java.util.Vector
+java.util.Stack 
+_____________________________________________________________
+Adding null:
+It is actually possible to insert null values into a Java List. 
+Object element = null;
+List<Object> list = new ArrayList<>();
+list.add(element);
+_____________________________________________________________
+Insert Elements at Specific Index:
+list.add(0, "element 4");
+_____________________________________________________________
+Insert All Elements From One List Into Another:
+List<String> listSource = new ArrayList<>();
+listSource.add("123");
+listSource.add("456");
+List<String> listDest   = new ArrayList<>();
+listDest.addAll(listSource);
+_____________________________________________________________
+
+Get Elements From a Java List:
+List<String> listA = new ArrayList<>();
+listA.add("element 0");
+listA.add("element 1");
+listA.add("element 2");
+//access via index
+String element0 = listA.get(0);
+String element1 = listA.get(1);
+String element3 = listA.get(2);
+_____________________________________________________________
+Find Elements in a List:
+You can find elements in a Java List using one of these two methods:   indexOf()       lastIndexOf()
+_____________________________________________________________
+List<String> list = new ArrayList<>();
+String element1 = "element 1";
+String element2 = "element 2";
+list.add(element1);
+list.add(element2);
+int index1 = list.indexOf(element1);
+int index2 = list.indexOf(element2);
+System.out.println("index1 = " + index1);
+System.out.println("index2 = " + index2);
+_____________________________________________________________
+Find Last Occurrence of Element in a List:
+List<String> list = new ArrayList<>();
+String element1 = "element 1";
+String element2 = "element 2";
+list.add(element1);
+list.add(element2);
+list.add(element1);
+int lastIndex = list.lastIndexOf(element1);
+System.out.println("lastIndex = " + lastIndex);   // o/p-2
+_____________________________________________________________
+Checking if List Contains Element:
+List<String> list = new ArrayList<>();
+String element1 = "element 1";
+list.add(element1);
+boolean containsElement =
+    list.contains("element 1");
+System.out.println(containsElement);
+_____________________________________________________________
+Remove Elements From a Java List:
+You can remove elements from a Java List via these two methods:        remove(Object element)           remove(int index)
+List<String> list = new ArrayList<>();
+String element = "first element";
+list.add(element);
+list.remove(element);
+
+List<String> list = new ArrayList<>();
+list.add("element 0");
+list.add("element 1");
+list.add("element 2");
+list.remove(0);
+_____________________________________________________________
+Remove All Elements From a Java List:
+List<String> list = new ArrayList<>();
+list.add("object 1");
+list.add("object 2");
+//etc.
+list.clear();
+_____________________________________________________________
+Retain All Elements From One List in Another:
+List<String> list      = new ArrayList<>();
+List<String> otherList = new ArrayList<>();
+String element1 = "element 1";
+String element2 = "element 2";
+String element3 = "element 3";
+String element4 = "element 4";
+list.add(element1);
+list.add(element2);
+list.add(element3);
+otherList.add(element1);
+otherList.add(element3);
+otherList.add(element4);
+list.retainAll(otherList);
+_____________________________________________________________
+List Size:
+int size = list.size();
+_____________________________________________________________
+Sublist of List:
+List<String> list      = new ArrayList<>();
+list.add("element 1");
+list.add("element 2");
+list.add("element 3");
+list.add("element 4");
+List<String> sublist = list.subList(1, 3);   // 3 will be excluded
+_____________________________________________________________
+Convert List to Set:
+List<String> list      = new ArrayList<>();
+list.add("element 1");
+list.add("element 2");
+list.add("element 3");
+list.add("element 3"); //will be ignored in set
+Set<String> set = new HashSet<>();
+set.addAll(list);
+_____________________________________________________________
+Convert List to Array:
+List<String> list      = new ArrayList<>();
+list.add("element 1");
+list.add("element 2");
+list.add("element 3");
+list.add("element 3");
+Object[] objects = list.toArray();
+
+List<String> list      = new ArrayList<>();
+list.add("element 1");
+list.add("element 2");
+list.add("element 3");
+list.add("element 3");
+String[] objects1 = list.toArray(new String[0]);
+_____________________________________________________________
+Convert Array to List:
+String[] values = new String[]{ "one", "two", "three" };
+List<String> list = (List<String>) Arrays.asList(values);
+_____________________________________________________________
+Sort List:
+You can sort a Java List using the Collections sort() method. 
+
+1]Sort List of Comparable Objects:
+If the List contains objects that implement the Comparable interface (java.lang.Comparable), then the objects can compare themselves to each other.
+The Java String class implements the Comparable interface, you can sort them in their natural order, using the Collections sort() method.
+List<String> list = new ArrayList<>();
+list.add("c");
+list.add("b");
+list.add("a");
+Collections.sort(list);
+
+2]Sort List Using Comparator:
+If the objects in the Java List do not implement the Comparable interface, or if you want to sort the objects in another order than their compare() implementation, then you need to use a Comparator implementation (java.util.Comparator). 
+
+public class Car{
+    public String brand;
+    public String numberPlate;
+    public int noOfDoors;
+
+    public Car(String brand, String numberPlate, int noOfDoors) {
+        this.brand = brand;
+        this.numberPlate = numberPlate;
+        this.noOfDoors = noOfDoors;
+    }
+}
+______________________________________________________________
+List<Car> list = new ArrayList<>();
+
+list.add(new Car("Volvo V40" , "XYZ 201845", 5));
+list.add(new Car("Citroen C1", "ABC 164521", 4));
+list.add(new Car("Dodge Ram" , "KLM 845990", 2));
+
+Comparator<Car> carBrandComparator = new Comparator<Car>() {
+    @Override
+    public int compare(Car car1, Car car2) {
+        return car1.brand.compareTo(car2.brand);
+    }
+};
+
+Collections.sort(list, carBrandComparator);
+______________________________________________________________
+List<Car> list = new ArrayList<>();
+
+list.add(new Car("Volvo V40" , "XYZ 201845", 5));
+list.add(new Car("Citroen C1", "ABC 164521", 4));
+list.add(new Car("Dodge Ram" , "KLM 845990", 2));
+
+
+Comparator<Car> carBrandComparatorLambda      =
+    (car1, car2) -> car1.brand.compareTo(car2.brand);
+
+Comparator<Car> carNumberPlatComparatorLambda =
+    (car1, car2) -> car1.numberPlate.compareTo(car2.numberPlate);
+
+Comparator<Car> carNoOfDoorsComparatorLambda  =
+    (car1, car2) -> car1.noOfDoors - car2.noOfDoors;
+
+Collections.sort(list, carBrandComparatorLambda);
+Collections.sort(list, carNumberPlatComparatorLambda);
+Collections.sort(list, carNoOfDoorsComparatorLambda);
+
+_____________________________________________________________
+Iterate List:
+Using an Iterator
+Using a for-each loop
+Using a for loop
+Using the Java Stream API
+
+1]Iterate List Using Iterator:
+List<String> list = new ArrayList<>();
+list.add("first");
+list.add("second");
+list.add("third");
+Iterator<String> iterator = list.iterator();
+while(iterator.hasNext()) {
+    String next = iterator.next();
+}
+
+2]Iterate List Using For-Each Loop:
+List<String> list = new ArrayList<String>();
+//add elements to list
+for(String element : list) {
+    System.out.println(element);
+}
+
+
+3]Iterate List Using For Loop:
+List list = new ArrayList();
+list.add("first");
+list.add("second");
+list.add("third");
+for(int i=0; i < list.size(); i++) {
+    Object element = list.get(i);
+}
+
+4]Iterate List Using Java Stream API:
+List<String> stringList = new ArrayList<String>();
+stringList.add("one");
+stringList.add("two");
+stringList.add("three");
+Stream<String> stream = stringList.stream();
+stream.forEach( element -> { System.out.println(element); });
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ArrayList
+
+The ArrayList class implements the List interface.It is dynamically growable or shrinkable array.
+It is unsychronized collection.Using collections.synchronizedList() method , we can make it synchronized.
+It stores data in ordered/sequential fashion.
+using integer index we can access elements of arraylist.
+can have duplicate and multiple null elements.
+We can travel elements using iterator and list iterator.
+Initial capacity is 10 elements , if arraylist is full , capacity gets increased by half of its existing capacity.
+The objects of this class are dynamic arrays. The ArrayList is essentially a resizable implementation of List. It implements all of the List methods and allows all elements even null elements. The ArrayList objects have a capacity, which is initially equal to the size but increases dynamically as new elements are added. An ArrayList is unsynchronised, which means multiple threads can access them at the same time.
+
+ArrayList<?> arrayListName = new ArrayList<?>();
+
+ArrayList<Integer> intArr = new ArrayList<Integer>(); 
+        intArr.add(10); 
+        intArr.add(12); 
+        intArr.add(25); 
+        intArr.add(19); 
+        intArr.add(11); 
+        intArr.add(3); 
+
+ 	intArr.remove(1); 
+        intArr.remove(4); 
+
+ 	if(intArr.contains(25)) 
+        { 
+            System.out.println("The ArrayList contains 25"); 
+        } 
+
+
+	intArr.get(1); 
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ Vector
+The vector class implements the List iterator. 
+It is dynamically growable or shrinkable array.
+It is sychronized collection.
+It is in java since jdk.1.0 and it is legacy class.
+It stores data in ordered/sequential fashion.
+using interger we can access elements of arraylist.
+can have duplicate and multiple null elements.
+We can travel elements using iterator , list iterator and enumeration.
+Initial capacity is 10 elements , if arraylist is full , capacity gets increased by its existing capacity.(gets doubled).
+A Vector instance is a dynamic array, wherein the elements can be accessed with indices. The difference between a Vector an ArrayList is that Vectors are synchronized.
+
+Vector<?> vectorName = new Vector<?>();
+
+ Vector<Integer> intVector = new Vector<Integer>(); 
+
+  // Print the initial size of the Vector 
+   System.out.println("The initial size of the Vector = " + intVector.size()); 
+
+ 	intVector.add(11); 
+        intVector.add(18); 
+        intVector.add(1); 
+        intVector.add(87); 
+        intVector.add(19); 
+        intVector.add(11); 
+	
+	intVector.remove(2);
+
+        intVector.clear(); 
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+
+ Stack
+The stack class extends from the Vector class. It is sychronized collection.
+The Stack is a last-in-first-out ( LIFO ) structure. You can visualize it as a stack of books on a table the book that is kept first has to e retrieved last, and the book that is kept on the stack last has to be retrieved first. The basic methods of the stack class are push, pop, peek, empty, and search.
+The Java Stack class, java.util.Stack, is a classical stack data structure. You can push elements to the top of a Java Stack and pop them again, meaning read and remove the elements from the top of the stack.
+Java Stack class is a subclass of Vector, an older Java class which is synchronized. This synchronization adds a small overhead to calls to all methods of a Stack. Additionally, the Vector class uses several older (no longer recommended) parts of Java, like the Enumeration which is superseded by the Iterator interface. If you want to avoid these issues you can use a Java Deque as a stack instead.
+
+
+Stack<?> stackName = new Stack<?>();
+
+ Stack<String> strStack = new Stack<String>(); 
+	strStack.push("Stack"); 
+        strStack.push("a"); 
+        strStack.push("is"); 
+        strStack.push("This"); 
+
+
+  // number of elements in the Stack 
+        System.out.println("The size of the Stack is : " + strStack.size()); 
+
+
+ int position = strStack.search("a"); 
+        System.out.println("\nThe string 'a' is at position " + position); 
+
+
+System.out.println("\nThe elements of the stack are : "); 
+        String temp; 
+        int num = strStack.size(); 
+          
+        for(int i = 1; i <= num; i++) 
+        { 
+            // peek() returns the topmost element 
+            temp = strStack.peek(); 
+            System.out.print(temp + " "); 
+              
+            // pop() removes the topmost element 
+            strStack.pop(); 
+  
+        } 
+          
+    } 
+          
+_______________________________________
+
+Stack stack = new Stack();
+_______________________________________
+Stack<String> stack = new Stack<String>();
+_______________________________________
+Stack<String> stack = new Stack<String>();
+stack.push("1");
+_______________________________________
+Stack<String> stack = new Stack<String>();
+stack.push("1");
+String topElement = stack.pop();
+_______________________________________
+
+peek() which enables you to see what the top element on the Stack is, without popping off the element. 
+
+Stack<String> stack = new Stack<String>();
+stack.push("1");
+String topElement = stack.peek();
+
+_______________________________________
+tack<String> stack = new Stack<String>();
+stack.push("1");
+stack.push("2");
+stack.push("3");
+int index = stack.search("3");     //index = 3
+_______________________________________
+Stack<String> stack = new Stack<String>();
+stack.push("1");
+stack.push("2");
+stack.push("3");
+int size = stack.size();
+_______________________________________
+Print elements:
+
+Stack<String> stack = new Stack<String>();
+stack.push("123");
+stack.push("456");
+stack.push("789");
+Iterator iterator = stack.iterator();
+while(iterator.hasNext()){
+    Object value = iterator.next();
+}
+
+
+Stack<String> stack = new Stack<String>();
+stack.push("A");
+stack.push("B");
+stack.push("C");
+Stream stream = stack.stream();
+stream.forEach((element) -> {
+    System.out.println(element);  // print element
+});
+_______________________________________
+Reverse List Using Stack:
+List<String> list = new ArrayList<String>();
+list.add("A");
+list.add("B");
+list.add("C");
+System.out.println(list);
+Stack<String> stack = new Stack<String>();
+while(list.size() > 0) {
+    stack.push(list.remove(0));
+}
+while(stack.size() > 0){
+    list.add(stack.pop());
+}
+System.out.println(list);
+_______________________________________
+
+Use a Java Deque as a Stack:
+Deque<String> dequeAsStack = new ArrayDeque>String>();
+dequeAsStack.push("one");
+dequeAsStack.push("two");
+dequeAsStack.push("three");
+String one   = dequeAsStack.pop();
+String two   = dequeAsStack.pop();
+String three = dequeAsStack.pop();
+
+_______________________________________
+
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ LinkedList
+The LinkedList class implements the List interface as well as the Deque interface. The LinkedList is the class implementation of the linked list data structure, where every element has a pointer to the next element forming a link. Since each element has an address of the next element, the linked list elements, referred to as nodes, can be stored at non-contiguous locations in memory.
+It is unsychronized collection.Using collections.synchronizedList() method , we can make it synchronized.
+stores data in ordered/sequential fashion.
+using integer index we can access elements of arraylist.
+can have duplicate and multiple null elements.
+
+
+	LinkedList<?> linkedListName = new LinkedList<?>();
+
+	// Instantiate LinkedList named strLinkedList 
+        LinkedList<String> strLinkedList = new LinkedList<String>(); 
+          
+        // Add elements to the LinkedList using add() 
+        strLinkedList.add("This"); 
+        strLinkedList.add("is"); 
+        strLinkedList.add("a"); 
+        strLinkedList.add("LinkedList"); 
+          
+        // The elements are retrieved using the get() method 
+        System.out.println("The contents of strLinkedList : "); 
+        for(int i = 0; i < strLinkedList.size(); i++) 
+        { 
+            System.out.print(strLinkedList.get(i) + " "); 
+        } 
+          
+        // The elements are removed using remove() 
+        strLinkedList.remove(0); 
+        strLinkedList.remove(1); 
+          
+        System.out.println("\n\nThe contents of strLinkedList after remove operation : "); 
+        for(int i = 0; i < strLinkedList.size(); i++) 
+        { 
+            System.out.print(strLinkedList.get(i) + " "); 
+        } 
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+Enumeration:
+Interface declared in java.util package.
+Using enumeration we can travel collection only in forward direction.
+functionality is duplicated by itertor interface .In addition iterator gas an optional remove method and shorter method names.
+Methods:
+hasMorElements(),
+nextElement
+
+
+import java.util.*; 
+  
+public class Vector_Demo { 
+    public static void main(String[] args) 
+    { 
+  
+        // Creating an empty Vector 
+        Vector<String> vec_tor = new Vector<String>(5); 
+  
+        // Inserting elements into the table 
+        vec_tor.add("Geeks"); 
+        vec_tor.add("4"); 
+        vec_tor.add("Geeks"); 
+        vec_tor.add("Welcomes"); 
+        vec_tor.add("You"); 
+  
+        // Displaying the Vector 
+        System.out.println("The Vector is: " + vec_tor); 
+  
+        // Creating an empty enumeration to store 
+        Enumeration enu = vec_tor.elements(); 
+  
+        System.out.println("The enumeration of values are:"); 
+  
+        // Displaying the Enumeration 
+        while (enu.hasMoreElements()) { 
+            System.out.println(enu.nextElement()); 
+        } 
+    } 
+} 
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+Queue
+The Queue interface extends the Collection interface. Queue is the interface implementation of the queue data structure. Since Queue in java is an interface it doesn’t have a definition of the methods only their signatures. Queue is typically a first-in-first-out ( FIFO ) structure, though that is not the case for PriorityQueue. You may visualize it as a queue of people at a counter, the person who enters first gets services first and leaves first.
+Queue does not allow insertion of null elements.
+
+
+The Java Queue interface, java.util.Queue represents a data structure designed to have elements inserted at the end of the queue, and elements removed from the beginning of the queue. This is similar to how a queue in a supermarket works.
+
+Illustration of a Queue
+The Java Queue interface is a subtype of the Java Collection interface. It represents an ordered sequence of objects just like a Java List, but its intended use is slightly different. Because the Java Queue interface is a subtype of the Java Collection interface, all methods in the Collection interface are also available in the Queue interface.
+_______________________________________________________
+Queue Implementations:
+java.util.LinkedList
+java.util.PriorityQueue
+java.util.Deque  ---->interface   <----   java.util.ArrayDeque  ---->interface
+
+LinkedList is a pretty standard queue implementation. Elements in the queue are stored internally in a standard linked list data structure. This makes it fast to insert elements at the end (tail) of the list, and remove elements from the beginning (head) of the list.
+
+PriorityQueue stores its elements internally according to their natural order (if they implement Comparable), or according to a Comparator passed to the PriorityQueue.
+_______________________________________________________
+Queue queueA = new LinkedList();
+Queue queueB = new PriorityQueue();
+_______________________________________________________
+Queue<MyObject> queue = new LinkedList<MyObject>();
+_______________________________________________________
+Queue<MyObject> queue = new LinkedList<MyObject>();
+MyObject myObject = queue.remove();
+for(MyObject anObject : queue){
+   //do someting to anObject...
+}
+_______________________________________________________
+
+These methods are the add() method and the offer() method. These two methods add an element to the end of the Queue. The add() and offer() methods differ in how the behave if the Queue is full, so no more elements can be added. The add() method throws an exception in that case, whereas the offer() method just returns false. 
+
+Queue<String> queue = new LinkedList<>();
+queue.add("element 1");
+queue.offer("element 2");
+_______________________________________________________
+The poll() and remove() both removes the first element in the Queue. They differ in how they behave if the Queue is empty. The poll() method returns null if the Queue is empty. The remove() method throws an exception if the Queue is empty
+Queue<String> queue = new LinkedList<>();
+
+queue.add("element 1");
+queue.add("element 2");
+String element1 = queue.poll();
+String element2 = queue.remove();
+
+_______________________________________________________
+You can peek at the element at the head of a Queue without taking the element out of the Queue. This is done via the Queue element() or peek() methods.
+The element() method returns the first element in the Queue. If the Queue is empty, the element() method throws a NoSuchElementException.
+The peek() works like the element() method except it does not throw an exception if the Queue is empty. Instead it just returns null. 
+
+
+Queue<String> queue = new LinkedList<>();
+queue.add("element 1");
+queue.add("element 2");
+queue.add("element 3");
+String firstElement = queue.element();
+
+
+Queue<String> queue = new LinkedList<>();
+queue.add("element 1");
+queue.add("element 2");
+queue.add("element 3");
+String firstElement = queue.peek();
+_______________________________________________________
+Queue<String> queue = new LinkedList<>();
+
+queue.add("element 0");
+queue.add("element 1");
+
+String removedElement = queue.remove();
+_______________________________________________________
+queue.clear();
+_______________________________________________________
+int size = queue.size();
+_______________________________________________________
+Queue<String> queue = new LinkedList<>();
+
+queue.add("Mazda");
+
+boolean containsMazda = queue.contains("Mazda");
+boolean containsHonda = queue.contains("Honda");
+_______________________________________________________
+
+Queue<String> queue = new LinkedList<>();
+
+queue.add("element 0");
+queue.add("element 1");
+queue.add("element 2");
+
+//access via Iterator
+Iterator<String> iterator = queue.iterator();
+while(iterator.hasNext(){
+  String element = iterator.next();
+}
+
+//access via new for-loop
+for(String element : queue) {
+    //do something with each element
+}
+
+_______________________________________________________
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+PriorityQueue
+The PriorityQueue class implements the Queue interface. The elements of a PriorityQueue are either ordered in natural order or in an order specified by a Comparator, which depends on the constructor used. The PriorityQueue is unbounded but there is a capacity that dictates the size of the array in which the elements are stored. The initial capacity is equal to the size of the array but as new elements are added it expands dynamically.
+
+PriorityQueue<?> priorityQueueName = new PriorityQueue<?>();
+
+ PriorityQueue<Integer> intPriorityQueue = new PriorityQueue<Integer>(); 
+
+	intPriorityQueue.add(17); 
+        intPriorityQueue.add(20); 
+        intPriorityQueue.add(1); 
+        intPriorityQueue.add(13); 
+        intPriorityQueue.add(87); 
+
+
+System.out.println(intPriorityQueue); 
+
+ // The peek() method is used to retrieve  
+          // the head of the PriorityQueue 
+        System.out.println("\nThe head of the PriorityQueue : " + intPriorityQueue.peek()); 
+          
+ intPriorityQueue.remove(17); 
+
+    // The poll() method is used 
+        // to retrieve and remove the 
+        // element at the head of the PriorityQueue 
+
+        Integer head = intPriorityQueue.poll(); 
+        System.out.println("\nThe head of the PriorityQueue was : " + head); 
+          
+          
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ Deque
+The Deque interface extends the Queue interface. The Deque is an implementation of the double-ended queue data structure, which is a linear structure where insertion and deletion can be done at both ends of the queue. 
+The Deque interface supports deques that have capacity restrictions, as well as that, have no fixed limit. 
+Because you can enqueue and dequeue from both ends of a Java Deque, you can use a Deque as both a queue and a stack. Deque can be used as a last-in-first-out ( LIFO ) as well as a first-in-first-out ( FIFO ) structure.
+The Deque interface does not extend the Java Stack interface, but the Deque interface defines methods that enable you to do the same operations you would normally do on a stack (push, peek, pop).
+
+Deque Implementations:
+java.util.LinkedList
+java.util.ArrayDeque
+
+The LinkedList class is a pretty standard Deque and Queue implementation. It uses a linked list internally to model a queue or a deque.
+The Java ArrayDeque class stores its elements internally in an array. If the number of elements exceeds the space in the array, a new array is allocated, and all elements moved over. In other words, the ArrayDeque grows as needed, even if it stores its elements in an array.
+_______________________________________________________
+Deque deque = new LinkedList();
+Deque deque = new ArrayDeque();
+_______________________________________________________
+Deque<MyObject> deque = new LinkedList<MyObject>();
+_______________________________________________________
+MyObject myObject = deque.remove();
+
+for(MyObject anObject : deque){
+   //do someting to anObject...
+}
+_______________________________________________________
+Add Element to Deque:
+add()
+addLast()
+addFirst()
+offer()
+offerFirst()
+offerLast()
+
+add():
+If the element cannot be inserted into the Deque, the add() method will throw an exception. This is different from the offer() method, which will return false if it cannot insert the element.
+Deque<String> deque = new ArrayDeque<>();
+deque.add("element 1");
+
+offer():
+Deque<String> deque = new ArrayDeque<>();
+deque.offer("element 1");
+
+addLast():
+Deque<String> deque = new ArrayDeque<>();
+deque.addLast("element 1");
+
+offerLast():
+Deque<String> deque = new ArrayDeque<>();
+deque.offerLast("element 1");
+
+addFirst():
+Deque<String> deque = new ArrayDeque<>();
+deque.addFirst("element 1");
+
+offerFirst():
+Deque<String> deque = new ArrayDeque<>();
+deque.offerFirst("element 1");
+
+push()
+The push() method adds an element to the beginning (head) of a Java Deque method. If adding the element fails, for instance if the Deque is full, the push() method will throw an exception. This is similar to how the addFirst() method works. Here is an example of adding an element to the beginning of a Java Deque using the push() method:
+Deque<String> deque = new LinkedList<>();
+deque.push("element 0");
+_______________________________________________________
+Peek at Element in Deque:
+peek()
+peekFirst()
+peekLast()
+getFirst()
+getLast()
+
+peek():
+The peek() method returns the first element from the beginning (head) of a Java Deque without removing it. If the Deque is empty, peek() returns null. Here is an example of peeking at the first element of a Java Deque using the peek() method:
+Deque<String> deque = new ArrayDeque<>();
+deque.add("first element");
+deque.add("last element");
+String firstElement = deque.peek();
+
+peekFirst():
+The peekFirst() method returns the first element from the beginning (head) of a Java Deque without removing it. If the Deque is empty, peekFirst() returns null. This is similar to how peek() works, but the method name peekFirst() is a bit more saying about which end of the Deque you peek at.
+Deque<String> deque = new ArrayDeque<>();
+deque.add("first element");
+deque.add("last element");
+String firstElement = deque.peekFirst();
+
+peekLast():
+Deque<String> deque = new ArrayDeque<>();
+deque.add("first element");
+deque.add("last element");
+String lastElement = deque.peekLast();
+
+getFirst():
+The getFirst() method returns the first element from the beginning (head) of a Java Deque without removing it. If the Deque is empty, getFirst() throws an exception
+eque<String> deque = new ArrayDeque<>();
+deque.add("first element");
+deque.add("last element");
+String firstElement = deque.getFirst();
+
+getLast():
+To peek at the last element of a Java Deque you can use the getLast() method. If the Deque is empty, getLast() will return null.
+Deque<String> deque = new ArrayDeque<>();
+deque.add("first element");
+deque.add("last element");
+String lastElement = deque.getLast();
+______________________________________________________
+Remove Element From Deque:
+remove()
+removeFirst()
+removeLast()
+poll()
+pollFirst()
+pollLast()
+
+remove():
+The remove() method removes the first element of a Java Deque. That is the element at the head of the Deque. The remove() method is actually inherited from the Queue interface. The remove() method returns the element that is removed from the Deque.If the Deque is empty, remove() will throw an exception. This is different from poll() which returns null if the Deque is empty.
+Deque<String> deque = new LinkedList<>();
+deque.add("element 0");
+String removedElement = deque.remove();
+
+removeFirst():
+If the Deque is empty, removeFirst() will throw an exception. This is different from pollFirst() which returns null if the Deque is empty.
+Deque<String> deque = new LinkedList<>();
+deque.add("element 0");
+String removedElement = deque.removeFirst();
+
+removeLast():
+Deque<String> deque = new LinkedList<>();
+deque.add("element 0");
+deque.add("element 1");
+deque.add("element 2");
+String removedElement = deque.removeLast();
+
+poll():
+The poll() method removes an element from the beginning of the Deque. If the Deque is empty, poll() returns null. 
+Deque<String> deque = new LinkedList<>();
+deque.add("element 0");
+deque.add("element 1");
+deque.add("element 2");
+String removedElement = deque.poll();
+
+
+pollFirst():
+Deque<String> deque = new LinkedList<>();
+deque.add("element 0");
+deque.add("element 1");
+deque.add("element 2");
+String removedElement = deque.pollFirst();
+
+
+pollLast():
+Deque<String> deque = new LinkedList<>();
+deque.add("element 0");
+deque.add("element 1");
+deque.add("element 2");
+String removedElement = deque.pollLast();
+
+
+pop():
+The pop() method removes an element from the beginning (head) of a Java Deque. If removing the element fails, for instance if the Deque is empty, the pop() method will throw an exception. This is similar to how the removeFirst() method works.
+Deque<String> deque = new LinkedList<>();
+deque.push("element 0");
+String removedElement = deque.pop();
+
+______________________________________________________
+Check if Deque Contains Element:
+Deque<String> deque = new ArrayDeque<>();
+deque.add("first element");
+boolean containsElement1 = deque.contains("first element");
+boolean containsElement2 = deque.contains("second element");
+
+______________________________________________________
+Deque Size:
+Deque<String> deque = new ArrayDeque<>();
+deque.add("first element");
+deque.add("second element");
+int size = deque.size();
+______________________________________________________
+
+Iterate Elements of Deque:
+Using an Iterator.
+Using the for-each loop.
+
+
+Deque<String> deque = new LinkedList<>();
+deque.add("element 0");
+deque.add("element 1");
+deque.add("element 2");
+Iterator<String> iterator = deque.iterator();
+while(iterator.hasNext(){
+  String element = iterator.next();
+}
+
+
+Deque<String> deque = new LinkedList<>();
+deque.add("element 0");
+deque.add("element 1");
+deque.add("element 2");
+for(String element : deque) {
+    System.out.println(element);
+}
+
+______________________________________________________
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ ArrayDeque
+The ArrayDeque class implements the Deque interface. ArrayDeque is a re-sizable implementation of Deque, it has no fixed capacity but increases as required. The ArrayDeque can be used as a stack, and it is faster compared to the Stack class(as stack is synchronixed and arraydeque not). ArrayDeque is not thread-safe and it does not allow concurrent access by different threads.
+
+Syntax:
+
+ArrayDeque<?> arrayDequeName = new ArrayDeque<?>();
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+
+Set
+The Set interface extends the Collection interface. The Set is a structure that models the mathematical definition of a set. It is a collection of objects and no duplicate objects are allowed. The Set allows at most one null element.  LinkedHashSet
+LinkedHashSet implements the Set interface. The LinkedHashSet is very similar to the HashSet with the difference being that for every bucket the structure uses to store elements is a doubly-linked list. The LinkedHashSet ordering is better compared to HashSet without any additional costs.
+
+Set implementations in the Java Collections API:
+java.util.EnumSet
+java.util.HashSet
+java.util.LinkedHashSet
+java.util.TreeSet
+
+_______________________________________________________
+package com.jenkov.collections;
+
+import java.util.HashSet;
+
+public class SetExample {
+
+    public static void main(String[] args) {
+
+        Set setA = new HashSet();
+
+        setA.add(element);
+
+        System.out.println( setA.contains(element) );
+    }
+}
+_______________________________________________________
+Each of these Set implementations behaves a little differently with respect to the order of the elements when iterating the Set, and the time (big O notation) it takes to insert and access elements in the sets.
+
+HashSet is backed by a HashMap. It makes no guarantees about the sequence of the elements when you iterate them.
+
+LinkedHashSet differs from HashSet by guaranteeing that the order of the elements during iteration is the same as the order they were inserted into the LinkedHashSet. Reinserting an element that is already in the LinkedHashSet does not change this order.
+
+TreeSet also guarantees the order of the elements when iterated, but the order is the sorting order of the elements. In other words, the order in which the elements whould be sorted if you used a Collections.sort() on a List or array containing these elements. This order is determined either by their natural order (if they implement Comparable), or by a specific Comparator implementation.
+
+_______________________________________________________
+Create a Set:
+package com.jenkov.collections;
+
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class SetExample {
+
+    public static void main(String[] args) {
+
+        Set setA = new HashSet();
+        Set setB = new LinkedHashSet();
+        Set setC = new TreeSet();
+
+    }
+}
+_______________________________________________________
+Generic Sets:
+By default you can put any Object into a Set, but from Java 5, Java Generics makes it possible to limit the types of object you can insert into a Set. Here is an example:
+
+Set<MyObject> set = new HashSet<MyObject>();
+This Set can now only have MyObject instances inserted into it. You can then access and iterate its elements without casting them. Here is how it looks:
+
+for(MyObject anObject : set){
+   //do someting to anObject...
+}
+
+_______________________________________________________
+Set.of():
+Since Java 9 the Set interface contains a set of static factory methods that can create unmodifiable (immutable) Set instances. I will explain some of these methods in this section.
+The Java Set static factory methods are called of() and take either zero or more parameters. Here is first an example of creating an empty, immutable Set using Set.of() :
+
+Set set = Set.of();
+This example creates an unmodifiable Set with no generic type specified.
+
+Specifying a generic type of the Set returned by Set.of() looks like this:
+Set<String> set3 = Set.<String>of();    
+
+You can also create unmodifiable Set instances which contains elements of your choice. You pass these elements to the of() method. Here is an example of how creating a Set containing elements using the Set.of() method looks:
+
+Set<String> set3 = Set.<String>of("val1", "val2", "val3");
+_______________________________________________________
+Add Element to Set:
+Set<String> setA = new HashSet<>();
+
+setA.add("element 1");
+setA.add("element 2");
+setA.add("element 3");
+_______________________________________________________
+Iterate Set Elements:
+Using an Iterator obtained from the Set.
+Using the for-each loop.
+Using the Java Stream API
+
+1]Iterate Set Using Iterator:
+To iterate the elements of a Set using an Java Iterator, you must first obtain an Iterator from the Set. You obtain an Iterator from a Set by calling the iterator() method. Here is an example of obtaining an Iterator from a Set:
+Set<String> setA = new HashSet<>();
+setA.add("element 1");
+setA.add("element 2");
+setA.add("element 3");
+Iterator<String> iterator = set.iterator();
+
+while(iterator.hasNext(){
+  String element = iterator.next();
+}
+
+2]Iterate Set Using For-Each Loop:
+The second way to iterate the elements of a Set is by using a for-each loop. Here is how iterating the elements of a Set using a for-each loop looks:
+Set set = new HashSet();
+for(Object object : set) {
+    String element = (String) object;
+}
+If the set has a generic type specified, you can use that type as the variable type inside the for-each loop.
+Set<String> set = new HashSet<>();
+for(String str : set) {
+    System.out.println(str);
+}
+
+3]Iterate Set Using the Java Stream API:
+The third way to iterate a Java Set is via the Java Stream API . To itereate a Java Set using the Java Stream API you must create a Stream from the Set.
+Set<String> set = new HashSet<>();
+set.add("one");
+set.add("two");
+set.add("three");
+Stream<String> stream = set.stream();
+stream.forEach((element) -> { System.out.println(element); });
+_____________________________________________________________
+Remove Elements From Set:
+You remove elements from a Java Set by calling the remove(Object o) method. 
+set.remove("object-to-remove");
+
+Remove All Elements From Set:
+set.clear();
+_____________________________________________________________
+Add All Elements From Another Collection:
+
+The Java List interface has a method called addAll() which adds all elements from another Collection (List or Set) to the Set. In set theory this corresponds to the union of the Set and the other Collection. Here is an example of adding all elements from another Set to a Java Set:
+
+Set<String> set = new HashSet<>();
+set.add("one");
+set.add("two");
+set.add("three");
+
+Set<String> set2 = new HashSet<>();
+set2.add("four");
+
+set2.addAll(set);
+_____________________________________________________________
+Remove All Elements From Another Collection:
+
+The Java Set interface as a method called removeAll() which removes all elements in the Set which are also present in another Collection. In set theory, this is referred to as the difference between the Set and the other Collection. Here is an example of removing all elements from a Java Set which are also present in another Collection:
+
+Set<String> set = new HashSet<>();
+set.add("one");
+set.add("two");
+set.add("three");
+
+Set set2 = new HashSet();
+set2.add("three");
+
+set.removeAll(set2);
+
+_____________________________________________________________
+Retain All Elements Present in Another Collection:
+The Java Set interface also has a method which retains all elements in the Set which are also present in another Collection. All elements found in the Set which are not present in the other Collection will be removed. In set theory this is referred to as the intersection between the Set and the other Collection
+Set<String> set = new HashSet<>();
+set.add("one");
+set.add("two");
+set.add("three");
+
+Set<String> set2 = new HashSet<>();
+set2.add("three");
+set2.add("four");
+
+set.retainAll(set2);  //op:three in set
+_____________________________________________________________
+Set Size:
+Set<String> set = new HashSet<>();
+
+set.add("123");
+set.add("456");
+set.add("789");
+
+int size = set.size(); //op:3
+_____________________________________________________________
+Check if Set is Empty:
+
+Set<String> set = new HashSet<>();
+boolean isEmpty = set.isEmpty();
+
+Set<String> set = new HashSet<>();
+boolean isEmpty = (set.size() == 0);
+_____________________________________________________________
+Check if Set Contains Element:
+
+Set<String> set = new HashSet<>();
+set.add("123");
+set.add("456");
+boolean contains123 = set.contains("123");
+
+To determine if the Set contains the element, the Set will internally iterate its elements and compare each element to the object passed as parameter. The comparison uses the Java equals method of the element to check if the element is equal to the parameter.
+
+Since it is possible to add null values to a Set, it is also possible to check if the Set contains a null value. Here is how you check if a Set contains a null value:
+set.add(null);
+containsElement = set.contains(null);
+System.out.println(containsElement);
+
+Obviously, if the input parameter to contains() is null, the contains() method will not use the equals() method to compare against each element, but rather use the == operator.
+_____________________________________________________________
+Convert Java Set to List:
+You can convert a Java Set to a Java List by creating a List and calling its addAll() method, passing the Set as parameter to the addAll() method. Here is an example of converting a Java Set to a List:
+Set<String> set = new HashSet<>();
+set.add("123");
+set.add("456");
+List<String> list = new ArrayList<>();
+list.addAll(set);
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+HashSet
+The HashSet class implements the Set interface. 
+It is based on hash table.
+cannot contain duplicate elements ,but can contain null element.
+unsynchorized collection , can make it synchronized using Collections.sortedSet().
+Faster than treeset but do not give gurantee of ordering.
+
+In a HashSet, the order of the elements may not be the same as the order of insertion. When an element is added into the HashSet a HashCode is calculated and the element is added to the appropriate bucket ( a bucket is a slot in any Hash structure ). A good HashSet algorithm will uniformly distribute the elements so that the time performance of the structure remains constant. A constant-time performance means it takes constant time for basic operations like insert, deletes, and search.
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+
+ LinkedHashSet
+Subclass of hashset.
+implementation is based on linked list and hash table.
+Gives guarantee of ordering of elements.
+runs nearly as fast as hashset.
+cannot contain duplicate elements ,but can contain null element.
+unsynchorized collection , can make it synchronized using Collections.sortedSet().
+LinkedHashSet implements the Set interface. The LinkedHashSet is very similar to the HashSet with the difference being that for every bucket the structure uses to store elements is a doubly-linked list. The LinkedHashSet ordering is better compared to HashSet without any additional costs.
+
+ HashSet<String> strHashSet = new HashSet<String>(); 
+          
+        // Add elements using add() 
+        strHashSet.add("This"); 
+        strHashSet.add("is"); 
+        strHashSet.add("a"); 
+        strHashSet.add("HashSet"); 
+          
+        // Create an Iterator to traverse through the HashSet 
+        Iterator<String> hsIterator = strHashSet.iterator(); 
+          
+        // Print all the elements of the HashSet 
+        System.out.println("Contents of HashSet : "); 
+        while(hsIterator.hasNext()) 
+        { 
+            System.out.print(hsIterator.next() + " "); 
+        } 
+
+
+// Instantiate an object of LinkedHashSet named strLinkedHashSet 
+        // Pass the name of the HashSet created earlier to copy all of the contents 
+        // of the HashSet to the LinkedHashSet using a constructor 
+        LinkedHashSet<String> strLinkedHashSet = new LinkedHashSet<String>(strHashSet); 
+          
+        // Create an Iterator to traverse through the LinkedHashSet 
+        Iterator<String> lhsIterator = strLinkedHashSet.iterator(); 
+          
+        // Print all the elements of the LinkedHashSet 
+        System.out.println("\n\nContents of LinkedHashSet : "); 
+        while(lhsIterator.hasNext()) 
+        { 
+            System.out.print(lhsIterator.next() + " "); 
+        } 
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ SortedSet
+The SortedSet interface extends the Set interface. The SortedSet provides a complete ordering of the elements. The default ordering is by Natural order else it is ordered by a Comparator specified at the time of construction. The traversing typically is in ascending order of elements.
+
+The Java SortedSet interface, java.util.SortedSet, is a subtype of the java.util.Set interface. The Java SortedSet interface behaves like a normal Set with the exception that the elements it contains are sorted internally. This means that when you iterate the elements of a SortedSet the elements are iterated in the sorted order.
+_____________________________________________________________
+The Java Collections API only has one implementation of the Java SortedSet interface - the java.util.TreeSet class.
+
+Create a TreeSet:
+SortedSet sortedSet = new TreeSet();
+_____________________________________________________________
+Create a TreeSet With a Comparator:
+It it possible to pass a Comparator, java.util.Comparator implementation to the constructor of the TreeSet. This Comparator will then decide the ordering of the elements in the TreeSet. Here is an example of creating a Java SortedSet with a Comparator:
+Comparator comparator = new MyComparatorImpl();
+SortedSet sortedSet = new TreeSet(comparator);
+_____________________________________________________________
+Sort Order:
+The default sort order used by a Java SortedSet is the natural sorting order of the elements. For the SortedSet to be able to determine the natural order of the elements, the elements must implement the java.lang.Comparable interface.
+If the elements do not implement the Comparable interface, the elements have no natural ordering. In that case you must pass a Comparator implementation to the SortedSet when you create it. The TreeSet class can take a Comparator in its constructor. Here is an example of creating a Java TreeSet with a Comparator:
+Comparator comparator = new MyComparator();
+SortedSet sortedSet = new TreeSet(comparator);
+_____________________________________________________________
+Ascending vs. Descending Sort Order:
+By default the elements of a SortedSet are iterated in ascending order, starting with the "smallest" and moving towards the "largest". But it is also possible to iterate the elements in descending order using the method TreeSet.descendingIterator(). Here is an example of iterating the elements of a TreeSet in descending order:
+TreeSet treeSet = new TreeSet();
+treeSet.add("one");
+treeSet.add("two");
+treeSet.add("three");
+Iterator iterator = treeSet.descendingIterator();
+while(iterator.hasNext()) {
+    String element = (String) iterator.next();
+    System.out.println(element);
+}
+_____________________________________________________________
+Get Comparator Used:
+If you created your SortedSet with a Comparator, you can obtain that Comparator via the SortedSet comparator() method. Here is an example of obtaining the Comparator used by a SortedSet via the comparator() method:
+Comparator comparator = sortedSet.comparator();
+
+_____________________________________________________________
+Add Elements:
+You add elements to a Java SortedSet in the same way you do with a normal Java Set - via its add() method. Here is an example of adding an element to a Java SortedSet:
+SortedSet sortedSet = new TreeSet();
+sortedSet.add("one");
+_____________________________________________________________
+Remove Elements
+To remove an element from a SortedSet you call its remove() method, passing the element to remove as parameter. Here is an example of removing an element from a Java SortedSet:
+sortedSet.remove("one");
+_____________________________________________________________
+Get First Element
+You can get the first element of a SortedSet according to its sort order by calling the first() method of the SortedSet. Here is an example of obtaining the first element from a Java SortedSet according to its sort order:
+Object firstElement = sortedSet.first();
+_____________________________________________________________
+Get Last Element
+You can get the last element of a SortedSet according to its sort order by calling the last() method of the SortedSet. Here is an example of obtaining the last element from a Java SortedSet according to its sort order:
+Object lastElement = sortedSet.last();
+_____________________________________________________________
+Iterate a SortedSet:
+The way you iterate the elements of a Java SortedSet is the same way you iterate a normal Java Set. You call the SortedSet iterator() method which returns an Iterator, and then you can iterate the elements via that. Here is an example of iterating the elements of a Java SortedSet:
+SortedSet sortedSet = new TreeSet();
+sortedSet.add("one");
+sortedSet.add("two");
+sortedSet.add("three");
+Iterator iterator = sortedSet.iterator();
+while(iterator.hasNext()) {
+    String element = (String) iterator.next();
+    System.out.println(element);
+}
+_____________________________________________________________
+Get Head Set:
+The Java SortedSet interface has a method named headSet() which returns another SortedSet with all elements that are smaller than (ahead of) a given parameter value, according to the sort order used by the SortedSet. Here is an example of obtaining a head set from a Java SortedSet via its headSet() method:
+SortedSet sortedSet = new TreeSet();
+sortedSet.add("a");
+sortedSet.add("b");
+sortedSet.add("c");
+sortedSet.add("d");
+sortedSet.add("e");
+SortedSet headSet = sortedSet.headSet("c");
+After running this code the headSet will contain the elements "a" and "b" since these two elements are smaller than (ahead of) the parameter value "c" that was passed to the headSet() method
+_____________________________________________________________
+Get Tail Set:
+The Java SortedSet interface has a method named setSet() which returns another SortedSet with all elements that are greater than or equal to (tailing) a given parameter value, according to the sort order used by the SortedSet. Here is an example of obtaining a tail set from a Java SortedSet via its tailSet() method:
+SortedSet sortedSet = new TreeSet();
+sortedSet.add("a");
+sortedSet.add("b");
+sortedSet.add("c");
+sortedSet.add("d");
+sortedSet.add("e");
+SortedSet tailSet = sortedSet.tailSet("c");
+After running this code the tailSet will contain the elements "c", "d" and "e", since these three elements are greater than or equal to (tailing) the parameter value "c" that was passed to the tailSet() method.
+_____________________________________________________________
+Get Subset:
+The Java SortedSet interface has a method named subSet() method which will return a new SortedSet which is a subset of the SortedSet the subSet() method is called on. The subSet() method takes two parameter values which specify what elements the returned SortedSet should contain. The returned subset will contain all elements equal to or greater than the first parameter, and smaller than the second parameter, according to the sort order used by the SortedSet. Here is an example of obtaining a subset of a Java SortedSet via its subSet() method:
+SortedSet sortedSet = new TreeSet();
+sortedSet.add("a");
+sortedSet.add("b");
+sortedSet.add("c");
+sortedSet.add("d");
+sortedSet.add("e");
+SortedSet subSet = sortedSet.subSet("c", "e");
+After running this code the subSet will contain the elements "c" and "d", since bother are equal to or greather than "c" (first parameter), and less than "e" (second parameter).
+_____________________________________________________________
+Generic SortedSet:
+When you declare a variable of type SortedSet, you can set a generic type on it. For more information about Java generics, see my Java Generics tutorial. Here is an example of setting a generic type on a SortedSet:
+SortedSet<String> sortedSet = new TreeSet<>();
+This SortedSet can now only contain Java String objects as elements. Among other things, this means that you no longer need to cast the objects obtained from the SortedSet to String. Here is an example of iterating a SortedSet of generic type String:
+SortedSet<String> sortedSet = new TreeSet<>();
+sortedSet.add("one");
+sortedSet.add("two");
+sortedSet.add("three");
+Iterator iterator = sortedSet.iterator();
+while(iterator.hasNext()) {
+    String element = iterator.next();
+    System.out.println(element);
+}
+Notice how there is no longer a cast of the object returned from iterator.next() needed. Because the generic type of the SortedSet is String, the compiler knows that the iterator is an Iterato<String>, so next() return String objects.
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ NavigableSet
+The NavigableSet interface extends from the SortedSet interface. In addition to the methods of the SortedSet, NavigableSet has navigation methods that give closest matches such as floor, ceiling, lower and higher. A NavigableSet can be traversed in ascending and descending order. Although it allows null element implementations it is discouraged as these implementations can give ambiguous results.
+Treeset class implements Navigable set.
+
+The Java NavigableSet interface, java.util.NavigableSet, is a subtype of the Java SortedSet interface. Therefore the NavigableSet behaves like a SortedSet, but with an additional set of navigation methods available in addition to the sorting mechanisms of the SortedSet.
+_____________________________________________________________
+Java NavigableSet Implementations
+In Java 6 to 13 there is only one implementation of the NavigableSet interface in the java.util package: The java.util.TreeSet class. There is an implementation in the java.util.concurrent package called ConcurrentSkipListSet but that is outside the scope of this trail.
+_____________________________________________________________
+
+Create a NavigableSet
+To create a Java NavigableSet you must create an instance of one of the classes implementing the NavigableSet interface. Here is an example of creating an instance of the class TreeSet which implements the NavigableSet interface:
+
+NavigableSet navigableSet = new TreeSet();
+_____________________________________________________________
+
+descendingSet()
+The descendingSet() method returns a NavigableSet in which the order of the elements is reversed compared to this one. The returned "view" is backed by the original NavigableSet, so changes to the descending set are also reflected in the original set.
+
+Here is a simple example:
+
+NavigableSet reverse = original.descendingSet();
+_____________________________________________________________
+descendingIterator()
+The descendingIterator() method allows you to iterate the elements of the NavigableSet (which is also a SortedSet) in reverse order, without changing the order of the elements internally.
+
+Iterator reverse = original.descendingIterator();    
+
+_____________________________________________________________
+headSet()
+The headSet() method returns a view of the original NavigableSet which only contains elements that are "less than" the given element. Here is an example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("2");
+original.add("3");
+
+//this headset will contain "1" and "2"
+SortedSet headset = original.headSet("3");
+
+//this headset will contain "1", "2", and "3" because "inclusive"=true
+NavigableSet headset = original.headSet("3", true);
+
+_____________________________________________________________
+
+tailSet()
+The tailSet() method works the same way as the headSet() method, except it returns all elements that are equal to or higher than the given parameter element. Here is a NavigableSet tailSet() method example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("2");
+original.add("3");
+
+//this tailSet will contain "2" and "3"
+SortedSet tailSet = original.tailSet("2");
+
+//this tailSet will contain "3" only because "inclusive"=false
+NavigableSet tailSet = original.tailSet("2", false);
+_____________________________________________________________
+subSet()
+The subSet() method allows you to pass two parameters demarcating the boundaries of the view set to return. The elements matching the first boundary is included, where as elements matching the last boundary are not. Here is a Java NavigableSet subSet() example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("2");
+original.add("3");
+original.add("4");
+original.add("5");
+
+//this subset will contain "2" and "3"
+SortedSet    subset  = original.subSet("2", "4");
+
+//this subset will contain "2", "3" and "4" because
+//    fromInclusive=true, and toInclusive=true 
+NavigableSet subset = original.subSet("2", true, "4", true);
+
+_____________________________________________________________
+ceiling()
+The ceiling() method returns the least (smallest) element in this set that is greater than or equal to the element passed as parameter to the ceiling() method. Here is a Java NavigableSet ceiling() example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("3");
+original.add("5");
+
+//ceiling will be "3".
+Object ceiling = original.ceiling("2");
+_____________________________________________________________
+
+floor()
+The floor() method does the opposite of the ceiling() method, meaning it returns the greatest element that is less than or equal to the given parameter value. Here is a Java NavigableSet floor() example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("3");
+original.add("5");
+
+//floor will be "1".
+Object floor = original.floor("2");
+_____________________________________________________________
+higher()
+The higher() method returns the least (smallest) element in this set that is greater than (not equal too) the element passed as parameter to the higher() method. Here is a Java NavigableSet higher() example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("2");
+original.add("3");
+
+
+//higher will be "3".
+Object higher = original.higher("2");
+
+_____________________________________________________________
+lower()
+The lower() method does the opposite of the higher() method, meaning it returns the highest element that is less than (not equal to) the given parameter. Here is a Java NavigableSet lower() example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("2");
+original.add("3");
+
+//lower will be "1"
+Object lower = original.lower("2");
+_____________________________________________________________
+pollFirst()
+The pollFirst() method returns and removes the "first" element in the NavigableSet or null if the set is empty. "First" means smallest element according to the sort order of the set. Here is a Java NavigableSet pollFirst() example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("2");
+original.add("3");
+
+
+//first is "1"
+Object first = original.pollFirst();
+_____________________________________________________________
+pollLast()
+The pollLast() method returns and removes the "last" element in the NavigableSet. "Last" means largest according to the element sorting order of the set. Here is a Java NavigableSet pollLast() example:
+
+NavigableSet original = new TreeSet();
+original.add("1");
+original.add("2");
+original.add("3");
+
+//last is "3"
+Object last = original.pollLast();
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ TreeSet
+The TreeSet class implements the Navigable interface. It is based on treemap collection.The TreeSet as the name suggests uses a tree structure to store elements and a set to order the elements. The ordering is either natural ordering or ordering by the Comparator specified at the time of construction. The TreeSet is unsynchronized, which is if multiple threads want to access it at the same time we need to synchronize it externally.Using collections.sychronizedSortedSet we cab make it sychronized.
+order in this TreeSet is natural ordering and no duplicate elements are allowed. We cannot add null elements to treeset.
+
+TreeSet<?> treeSetName = new TreeSet<?>();
+// Instantiate an object of TreeSet named intTreeSet 
+        TreeSet<Integer> intTreeSet = new TreeSet<Integer>(); 
+          
+        // Add elements using add() 
+        intTreeSet.add(18); 
+        intTreeSet.add(13); 
+        intTreeSet.add(29); 
+        intTreeSet.add(56); 
+        intTreeSet.add(73); 
+          
+        // Try to add a duplicate 
+        // Observe output as it will not be added 
+        intTreeSet.add(18); 
+          
+        // Print the TreeSet on the console 
+        System.out.println("The contents of intTreeSet : "); 
+        System.out.println(intTreeSet); 
+          
+        // Remove 18 using remove() 
+        if(intTreeSet.remove(18)) 
+        { 
+            System.out.println("\nElement 18 has been removed"); 
+        } 
+        else
+        { 
+            System.out.println("\nNo such element exists"); 
+        } 
+  
+        // Try to remove a non-existent element 
+        if(intTreeSet.remove(12)) 
+        { 
+            System.out.println("\nElement 18 has been removed"); 
+        } 
+        else
+        { 
+            System.out.println("\nNo such element exists"); 
+        } 
+          
+        System.out.println(); 
+          
+        // Print the TreeSet on the console 
+        System.out.println("The contents of intTreeSet : "); 
+        System.out.println(intTreeSet); 
+  
+    } 
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ Map
+It is a interface declared in java.util package .
+It is part of collection framework but do not extends collection interface.
+This interface takes the place of dictionary class , which was a totally abstract class rather than an interface.
+The Map interface is a structure that maps a key to every value. A Map does not allow duplicate elements as one key cannot have multiple mappings.
+A  map cannot have duplicate keys , but can have duplicate elements.
+Can a contain at most one null key , but multiple null values.(exception hashtable,treemap)
+A Map has three different views, a Set view of the keys, a Set view of key-value mappings, and a Collection view of the values. The methods of the Map interface are given below, every class that implements Map must provide definitions for these methods.
+
+he Java Map interface, java.util.Map, represents a mapping between a key and a value. More specifically, a Java Map can store pairs of keys and values. Each key is linked to a specific value. Once stored in a Map, you can later look up the value using just the key.
+
+The Java Map interface is not a subtype of the Collection interface. Therefore it behaves a bit different from the rest of the collection types.
+______________________________________
+
+Java Map Implementations
+Since Map is an interface you need to instantiate a concrete implementation of the Map interface in order to use it. The Java Collections API contains the following Map implementations:
+
+java.util.HashMap
+java.util.Hashtable
+java.util.EnumMap
+java.util.IdentityHashMap
+java.util.LinkedHashMap
+java.util.Properties
+java.util.TreeMap
+java.util.WeakHashMap
+In my experience, the most commonly used Map implementations are HashMap and TreeMap.
+
+Each of these Map implementations behaves a little differently with respect to the order of the elements when iterating the Map, and the time (big O notation) it takes to insert and access elements in the maps.
+
+HashMap maps a key and a value. It does not guarantee any order of the elements stored internally in the map.
+
+TreeMap also maps a key and a value. Furthermore it guarantees the order in which keys or values are iterated - which is the sort order of the keys or values. Check out the Java Map JavaDoc for more details.
+
+The HashMap implementation is typically the fastest of the two Map implementations, so whenever you don't need to sort the elements in the Map you can just use a HashMap. Otherwise use a TreeMap.
+______________________________________
+
+Create a Map:
+
+To create a Java Map you must create an instance of one the classes that implement the Java Map interface. Here are a few examples of how to create a Map instance:
+
+Map mapA = new HashMap();
+
+Map mapB = new TreeMap();
+______________________________________
+
+Generic Java Map:
+
+By default you can put any Object into a Map, but from Java 5, Java Generics makes it possible to limit the types of object you can use for both keys and values in a Map. Here is an example:
+
+Map<String, MyObject> map =
+    new HashMap<String, MyObject>();
+
+This Map can now only accept String objects for keys, and MyObject instances for values. You can then access and iterate keys and values without casting them. Here is how it looks:
+
+for(MyObject anObject : map.values()){
+   //do someting with anObject...
+}
+
+for(String key : map.keySet()){
+   MyObject value = map.get(key);
+   //do something to value
+}
+If you know the type of the objects being stored in the Map it is considered good practice to always specify a generic type when declaring and creating a Java Map. The generic type helps you avoid inserting the wrong objects, and makes it easier for people reading your code to understand what kind of objects the Map contains
+______________________________________
+
+Inserting Elements Into a Java Map:
+To add elements to a Map you call its put() method. Here are a few examples:
+
+Map<String, String> map = new HashMap<>();
+
+map.put("key1", "element 1");
+map.put("key2", "element 2");
+map.put("key3", "element 3");
+The three put() calls maps a string value to a string key. You can then obtain the value using that key, as we will see in the next secti
+______________________________________
+
+Only Objects Can Be Inserted:
+
+Only Java objects can be used as keys and values in a Java Map. In case you pass primitive values (e.g. int, double etc.) to a Map as key or value, the primitive values will be auto-boxed before being passed as parameters. Here is an example of auto-boxing primitive parameters passed to the put() method:
+
+map.put("key", 123);
+The value passed to the put() method in the above example is a primitive int. Java auto-boxes it inside an Integer instance though, because the put() method requires an Oject instance as both key and value. Auto-boxing would also happen if you passed a primitive as key to the put() method.
+
+______________________________________
+
+Subsequent Inserts With Same Key:
+A given key can only occur in a Java Map one time. That means, that only a single key + value pair for each key can exist in the Map at the same time. In other words, for the key "key1" only one value can be stored in the same Map instance. Of course you can store values for the same key in different Map instances.
+
+If you call put() more than once with the same key, the latest value passed to put() for that key will overwrite what is already stored in the Map for that key. In other words, the latest value replaces the existing value for the given key.
+______________________________________
+
+Null Keys:
+Quite surprisingly you can use the value null as a key in a Java Map. Here is an example of using a null key in a Java Map:
+
+Map map = new HashMap();
+
+map.put(null, "value for null key");
+To obtain the value stored by the null key you call the get() method with null as parameter value. Here is an example of getting the value for the null key of a Java Map:
+
+Map<String, String> map = new HashMap<>();
+
+String value = map.get(null);
+
+______________________________________
+
+Null Values:
+The value of a key + value pair stored in a Map is allowed to be null - so this is valid:
+
+map.put("D", null);
+Just keep in mind that you will get a null out when you call get() later with that key - so this will return null:
+
+Object value = map.get("D");
+The value variable will have the value null after this code has been executed, if a null value was inserted for this key earlier 
+
+
+______________________________________
+
+Inserting All Elements From Another Map:
+Map<String, String> mapA = new HashMap<>();
+mapA.put("key1", "value1");
+mapA.put("key2", "value2");
+
+Map<String, String> mapB = new HashMap<>();
+mapB.putAll(mapA);
+______________________________________
+
+Get Elements From a Java Map:
+
+Map map = new HashMap();
+map.put("key1", "value 1");
+String element1 = (String) map.get("key1");
+
+
+Map<String, String> map = new HashMap<>();
+map.put("key1", "value 1");
+String element1 = map.get("key1");
+______________________________________
+Get or Default Value:
+The Java Map interface has a getOrDefault() method which can return a default value supplied by you - in case no value is stored in the Map by the given key. Here is an example of getting a value from a Java Map with a backup default value:
+
+Map<String, String> map = new HashMap<>();
+
+map.put("A", "1");
+map.put("B", "2");
+map.put("C", "3");
+
+String value = map.getOrDefault("E", "default value");
+This example creates a Map and stores three values in it using the keys A, B and C. Then the example calls the Map getOrDefault() method, passing the String E as key, along with a default value - the String default value. Since the Map does not contain any object stored by the key E the given default value will be returned - which is the String default value passed as the last parameter to the getOrDefault() method.
+
+______________________________________
+Checking if Map Contains Key:
+You can check if a Java Map contains a specific key using the containsKey() method. Here is how that looks:
+
+boolean hasKey = map.containsKey("123");
+After running this code, the hasKey variable will have the value true if a key + value pair was inserted earlier with the String key 123, and false if no such key + value pair was inserted.
+
+______________________________________
+Checking if Map Contains Value:
+The Java Map interface also has a method that enables you to check if the Map contains a certain value. The method is called containsValue() . Here is how calling the containsValue() looks:
+
+boolean hasValue = map.containsValue("value 1");
+After executing this code the hasValue variable will contain the value true if a key + value pair was inserted ealier with the String value "value 1", and false if not.
+
+______________________________________
+Iterating the Keys of a Java Map:
+
+Iterating the Keys of a Java Map
+There are several ways to iterate the keys stored in a Java Map. The most used methods for iterating the keys are:
+
+Via the key Iterator
+Via the for-each loop
+Via a Stream
+
+______________________________________
+1]Using a Key Iterator:
+You can iterate all the keys of a Java Map via its keySet() method. Here is how iterating the keys of a Java Map looks:
+
+Iterator iterator = map.keySet().iterator();
+
+while(iterator.hasNext(){
+  Object key   = iterator.next();
+  Object value = map.get(key);
+}
+As you can see, the key Iterator returns every key stored in a Java Map, one by one (one for each call to next()). Once you have the key, you can obtain the element stored for that key using the Map get() method.
+
+In the example above, the Iterator next() method returns an Object - and so does the get() method. With generic types specified for the Map these methods would have returned the type of the key and value objects respectively. Here is how that would look:
+
+Map<String, String> map = new HashMap<>();
+
+Iterator<String> iterator = map.keySet().iterator();
+
+while(iterator.hasNext(){
+  String key   = iterator.next();
+  String value = map.get(key);
+}
+Notice how a generic type is now also specified for the Iterator obtained from map.keySet().iterator().
+
+______________________________________
+2]Using a Key For-Each Loop
+From Java 5 you can also use the for-each loop to iterate the keys stored in a Java Map. Here is how that looks:
+
+for(Object key : map.keySet()) {
+    Object value = map.get(key);
+}
+The effect of the above code is pretty similar to the code shown in the previous section.
+
+If you have specified a generic type for the Java Map, then you can use that type inside the for-each loop. Here is how that looks:
+
+Map<String, String> map = new HashMap<>();
+
+for(String key : map.keySet()) {
+    String value = map.get(key);
+}
+______________________________________
+
+3]Using a Key Stream
+From Java 8 you can use a Java Stream to iterate the keys of a Java Map. The Stream interface is part of the Java Stream API which was added in Java 8. You first obtain the key Set from the Map and from that you can get a Stream. Here is an example of iterating the keys of a Java Map via a Stream:
+
+Map<String, String> map = new HashMap<>();
+
+map.put("one", "first");
+map.put("two", "second");
+map.put("three", "third");
+
+Stream<String> stream = map.keySet().stream();
+stream.forEach((value) -> {
+    System.out.println(value);
+});    
+______________________________________
+Iterating the Values of a Java Map
+It is also possible to just iterate the values stored in a Java Map. You obtain a Collection of the values stored in a Map via the values() method. You can iterate the values in the Collection in following ways:
+
+Using an Iterator
+Using the for-each Loop
+Using a value Stream
+______________________________________
+1]Using a Value Iterator
+The first way to iterate all values stored in a Java Map is to obtain a value Iterator instance from the value Set, and iterate that. Here is how iterating the values stored in a Java Map using a value Iterator:
+
+Map<String, String> map = new HashMap<>();
+
+Iterator<String> iterator = map.values().iterator();
+
+while(iterator.hasNext()) {
+    String nextValue  iterator.next();
+}
+Since a Set is unordered, you do not have any guarantees about the order in which the values in the value set are iterated. However, if you are using a TreeSet you can control this order still.
+
+______________________________________
+
+2]Using a Value For-Each Loop
+The second method of iterating the values stores in a Java Map is via the Java for-each loop. Here is how iterating the values of a Java Map using the for-each loop looks in code:
+
+Map<String, String> map = new HashMap<>();
+
+for(String value : map.values()){
+    System.out.println(value);
+}
+This example will print out all the values store in the mapA Map variable.
+
+______________________________________
+
+3]Using a Value Stream
+The third way to iterate the values stored in a Java Map is by using a value Stream, by using the Java Stream API. You first obtain the value Set from the Map, and from the value Set you can obtain the Stream. Here is an example of iterating the values of a Java Map via a value Stream:
+
+Map<String, String> map = new HashMap<>();
+
+map.put("one", "first");
+map.put("two", "second");
+map.put("three", "third");
+
+Stream<String> stream = map.values().stream();
+stream.forEach((value) -> {
+    System.out.println(value);
+});
+______________________________________
+
+Iterating the Entries of a Java Map
+It is also possible to iterate all entries of a Java Map. By entries I mean key + value pairs. An entry contains both the key and value for that entry. Earlier we have only iterated either the keys, or the values, but by iterating the entries we iterate both at the same time.
+
+Like with keys and values, there are two ways to iterate the entries of a Map:
+
+Using an Entry Iterator
+Using the for-each loop
+______________________________________
+
+
+1]Using an Entry Iterator
+The first way to iterate the entries of a Java Map is via an entry Iterator obtained from the entry Set. Here is an example of iterating the entries of Java Map:
+
+Set<Map.Entry<String, String>> entries = map.entrySet();
+
+Iterator<Map.Entry<String, String>> iterator =
+    entries.iterator();
+
+while(iterator.hasNext()) {
+    Map.Entry<String, String> entry = iterator.next();
+    String key   = entry.getKey();
+    String value = entry.getValue();
+}
+Notice how the key and value can be obtained from each Map.Entry instance.
+
+Keep in mind that the above code can be made a bit nicer using a Map typed with Java Generics as shown later in this tutorial.
+______________________________________
+
+
+2]Using an Entry For-Each Loop
+The second way to iterate the entries of a Java Map is to use a for-each loop. Here is an example of iterating the entries of a Java Map using a for-each loop:
+
+for(Map.Entry<String, String> entry : map.entrySet()){
+    String key = entry.getKey();
+    String value = entry.getValue();
+}
+Notice, that this example too can be made a bit prettier using a generic Map. Generic Map instance are explained a bit later in this Java Map tutorial.
+
+______________________________________
+
+Removing Entries From a Java Map
+You remove Entries by calling the remove(Object key) method. You thus remove the (key, value) pair matching the key. Here is an example of removing the entry for a given key in a Java Map :
+
+map.remove("key1");
+After executing this instruction, the Map referenced by mapA will no longer contain an entry (key + value pair) for the key key1.
+
+______________________________________
+Removing All Entries
+You can remove all entries in a Java Map using the clear() method. Here is how that looks:
+
+map.clear();
+______________________________________
+Replacing an Entry in a Java Map
+It is possible to replace an element in a Java Map using the replace() method. The replace() method will only insert the new value if there is already an existing value mapped to the key. If no existing value is mapped to the given key, no value is inserted. This is different from how put() works, which always insert the value no matter what.
+
+Here is an example of replacing one value with another using the Java Map replace() method:
+
+Map map = new HashMap<>();
+
+map.replace("key", "val2"); //no "key" entry, no replace
+
+map.put("key", "val1");     //now contains "key" entry
+
+map.replace("key", "val2"); //now "key" entry replaced
+After running this code the Map instance will contain the String value newer value for the String key key .
+
+______________________________________
+
+
+Reading Number of Entries in Map
+You can read the number of entries in a Java Map using the size() method. The number of entries in a Java Map is also referred to as the Map size - hence the method name size() . Here is an example of reading the number of entries in a Map using the size() method:
+
+int entryCount = map.size();
+
+
+______________________________________
+
+Checking if a Java Map is Empty
+The Java Map interface has a special method for checking if a Map is empty. This method is called isEmpty() and it returns either true or false. The isEmpty() method will return false if the Map instance contains 1 or more entries. If the Map contains 0 entries, isEmpty() will return true.
+
+
+______________________________________
+
+Functional Operations in Java Map
+The Java Map interface had a few functional operations added from Java 8. These functional operations make it possible to interact with a Map in a more functional style. For instance, you pass a Java Lambda Expression as parameter to these functional style methods. You can read more about functional programming in my tutorial about Java Functional Programming .
+
+The functional operation methods are:
+
+compute()
+computeIfAbsent()
+computeIfPresent()
+merge()
+Each of these functional methods will be described in more detail in the following sections.
+______________________________________
+compute()
+The Map compute() method takes a key object and a lambda expression as parameters. The lambda expression must implement the java.util.function.BiFunction interface. Here is an example of calling the Java Map compute() method:
+
+map.compute("123", (key, value) -> value == null ? null : value.toString().toUpperCase());
+The compute() method will call the lambda expression internally, passing the key object and whatever value is stored in the Map for that key object, as parameters to the lambda expression.
+
+Whatever value the lambda expression returns is stored instead of the currently stored value for that key. If the lambda expression returns null, the entry is removed. There will not be a key -> null mapping stored in the Map.
+
+In the example above you can see that the lambda expression checks if the value mapped to the given key is null or not, before calling toString().toUpperCase() on it.
+
+It the lambda expression throws an exception, the entry is also removed.
+______________________________________
+computeIfAbsent()
+The Map computeIfAbsent() method works similarly to the compute() method, but the lambda expression is only called if no entry exists already for the given key.
+
+The value returned by the lambda expression is inserted into the Map. If null is returned, no entry is inserted.
+
+If an exception is thrown by the lambda expression, no entry is inserted either.
+
+Here is an example of calling the Map computeIfAbsent() method:
+
+map.computeIfAbsent("123", (key) -> "abc");
+This example actually just returns a constant value - the string 123 . However, the lambda expression could have calculated the value in any way it needed to - e.g. extract the value from another object, or concatenate it from other values etc.
+______________________________________
+computeIfPresent()
+The Map computeIfPresent() method works oppositely of computeIfAbsent(). It only calls the lambda expression passed as parameter to it, if an entry already exists in the Map for that key. Here is an example of calling the computeIfPresent() method:
+
+map.computeIfPresent("123", (key, value) -> value == null ? null : value.toString().toUpperCase());
+The value returned by the lambda expression will be inserted into the Map instance. If the lambda expression returns null, the entry for the given key is removed.
+
+If the lambda expression throws an exception, the exception is rethrown, and the current entry for the given key is left unchanged.
+______________________________________
+merge()
+The Map merge() method takes a key, a value, and a lambda expression implementing the BiFunction interface as parameters.
+
+If the Map does not have an entry for the key, or if the value for the key is null, the value passed as parameter to the merge() method is inserted for the given key.
+
+If, however, an existing value is already mapped to the given key, the lambda expression passed as parameter is called instead. The lambda expression thus gets a chance to merge the existing value with a new value. The value returned by the lambda expression is then inserted into the Map for the given key. If the lambda expression returns null, the entry for the given key is removed.
+
+Here is an example of calling the Map merge() method:
+
+map.merge("123", "XYZ", (oldValue, newValue) -> newValue + "-abc");
+This example will insert the value XYZ into the Map if no value is mapped to the key (123), or if null is mapped to the key. If a non-null value is already mapped to the key, the lambda expression is called. The lambda expression returns the new value (XYZ) + the value -abc, meaning XYZ-abc.
+
+If an exception is thrown by the lambda expression, the exception is rethrown, and the current mapping for the given key is kept unchanged.
+
+
+______________________________________
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+ HashMap
+The HashMap class implements the Map interface. Implementation based on hash table.
+It is unsynchronized collection.Can make it synchronized using Collections.synchronzedMap().
+key must be unique.value can be duplicate.
+atmost one key can be null and multiple values can be null.
+For every entry in a HashMap, a hashCode is computed and this entry is inserted into the bucket with the hashCode value as its index. Every entry is a key-value pair. A bucket in a HashMap may contain more than one entry. A good HashMap algorithm will try to uniformly distribute the elements in the HashMap. HashMap has constant time performance for basic retrieval, insertion, deletion, and manipulation operations. The two most important factors that affect the performance of a HashMap are initial capacity and load factor. The number of buckets is the capacity and the measure of when to increase this capacity is load factor. The HashMap is faster compared to a HashTable.
+
+HashMap<? , ?> hashMapName = new HashMap<? , ?>();
+
+HashMap is a data structure that implements Map<Key,Value> interface and it based on hashing principle(hashtable)..It is implemented based on the hashtable and there is no specific ordering on the keys as well as the values.
+
+HashMap lets us store keys on the principle of hashing. There are two main methods — put(key, value) and get(key) for storing and retrieving Objects from HashMap. Key-value pairs are stored in so-called "buckets", all the buckets together are a "table", a kind of internal array of linked lists.
+
+So the first element of the linked list is stored in the bucket. This linked list is a chain of objects, and each of them has a link to the next object from the chain. Hence, having the first element you can get to the chain of all the elements of the list. A linked list item is an object of the Entry class that contains a key, a value, and a link to the next Entry.
+
+When we call put(key, value), HashMap calls hashCode method on the key object. Then it applies the hashcode we got into its own hashing function, that helps to find a bucket location for storing an Entry object. HashMap stores key and value objects as a Map.Entry in a bucket.
+__________________________________
+*Hashcode:
+Each Java object has a hash code. It is usually a number, and it is calculated using the hashCode method of the Object class. The good idea is to override this method for your own classes along with the equals method associated with it.
+Hashcode is a unique code generated by the JVM at time of object creation. It can be used to perform some operation on hashing related algorithm like hashtable, hashmap etc. An object can also be searched with this unique code.
+
+Hash codes helps programs run faster. Suppose we compare volume objects s1 and s2 of the Student type and declare that the operation s1.equals(s2) takes about 500 ms. In that case, the comparison of the hash codes s1.hashCode() == s2.hashCode() takes about 20 ms.
+The main rules of the hash codes:
+A particular object always has the same hash code.
+If objects are equal, their hash codes are the same, but not vice versa.
+If the hash codes are different, then the objects are definitely not equal.
+Different objects may (although very unlikely) have the same hash codes. Well... here we have found data loss! This situation is called a collision. The "good" hash code should minimize a probability of collisions.
+
+__________________________________
+*What is a Hash Function? 
+
+A function that converts a given big phone number to a small practical integer value. The mapped integer value is used as an index in the hash table. In simple terms, a hash function maps a big number or string to a small integer that can be used as the index in the hash table. 
+
+The mod method:
+h(key) = key mod table_size 
+
+37596 % 17 = 12   (index in hash table)
+__________________________________
+*Hashcode() method: 
+The hashCode method is an inbuilt method of object class that returns the integer hashed value(hashcode) of the input value
+
+Multiple invocations of the hashCode must return the same integer value within the execution of a program unless the Object used within the equals method changes. The integer value need not be the same for the next implementation.
+If two or more objects are equal according to the equals method, then their hashes should be equal too.
+If two or more objects are not equal according to the equals method, then their hashes can be equal or unequal.
+Remember: If you override the equals method, it is crucial to override the hash method as well.
+
+//declare a class
+public class Password{
+  //declare attributes
+  private String password;
+  private String retypedpassword;
+
+  //setters and getters
+  Password(String x){
+    this.password = x;
+  }
+  public String getpassword()
+  {
+    return this.password;
+  }
+  //Override the predefined hashCode function
+  @Override
+  public int hashCode(){
+    return (int) password.hashCode();
+  }
+  //Override the predefined equals function
+  @Override
+  public boolean equals(Object x){
+    if (x == null)
+      return false;
+    Password y = (Password) x;
+    return y.getpassword() == this.getpassword() ;
+  }
+
+}
+//declare a separate class to compare two objects
+class hashes{
+ 
+  public static void main(String args[])
+  {
+    //declare two objects
+    Password p1 = new Password("ABC");
+    Password p2 = new Password("ABC");
+    //compare and print
+    System.out.println("Hash for password 1: ");
+    System.out.println(p1.hashCode());
+    System.out.println("Hash for password 2: ");
+    System.out.println(p2.hashCode());
+
+    System.out.println("Equal? ");
+    System.out.println(p1.equals(p2));
+  } 
+
+
+
+
+_____________________________________________________________________________________________________________________________________________________________
+ Hashtable
+The Hashtable class implements the Map interface. The Hashtable has key-value pairs as its elements. For effective implementation of the hashtable, the keys must be unique. A Hashtable is very similar to a Hashtable, but Hashtable is synchronous. A good Hashtable algorithm will try to uniformly distribute the elements in the Hashtable. Hashtable has constant time performance for basic retrieval, insertion, deletion, and manipulation operations. The two most important factors that affect the performance of a Hashtable are initial capacity and load factor. The number of buckets is the capacity and the measure of when to increase this capacity is load factor.
+key must be unique.value can be duplicate.
+key and value cannot be null.
+it is synchronized collection.
+
+
+
+HashTable<? , ?> hashTableName = new HashTable<? , ?>();
+
+
+_____________________________________________________________________________________________________________________________________________________________
+ LinkedHashMap
+The LinkedHashMap class implements the Map interface.Implementation based on hashtable and linked list. 
+key must be unique.value can be duplicate.
+atmost one key can be null and multiple values can be null.
+It is unsynchronized collection.Can make it synchronized using Collections.synchronzedMap().
+A LinkedHashMap is a hash map linked list implementation of a map. Every entry in the LinkedHashMap has a doubly-linked list running through it. This linked list defines the iteration order that is the order of the keys inserted into the LinkedHashMap. Like all implementations of Map, the elements of the LinkedHashMap are key-value pairs.
+we add elements using put() method to all of the HashMap, Hashtable, and LinkedHashMap. As put() is a method of the Map interface, therefore, is implemented by all three of these classes. As you can observe the insertion order of Hashtable is not the same as the internal ordering, therefore it is nondeterministic. When we try to insert a duplicate key the old value is replaced in all three. And When we try to insert a duplicate value with a different key it is added as a new entry. Basically this is to depict that we can have duplicate values but not duplicate keys.
+
+LinkedHashMap<? , ?> linkedHashMapName = new LinkedHashMap<? , ?>();
+
+
+   
+        /*--------------HashMap---------------*/
+          
+        // Instantiate an object of HashMap named hashMap 
+        HashMap<Integer, String> hashMap = new HashMap<Integer, String>(); 
+          
+        // Add elements using put() 
+        hashMap.put(1, "This"); 
+        hashMap.put(2, "is"); 
+        hashMap.put(3, "HashMap"); 
+          
+        // Print the HashMap contents on the console 
+        System.out.println("Contents of hashMap : "); 
+        System.out.print(hashMap.entrySet()); 
+          
+        // Add a duplicate key 
+        hashMap.put(3, "Duplicate"); 
+          
+        // Add a duplicate value 
+        hashMap.put(4, "This"); 
+          
+        // Print the HashMap contents on the console 
+        System.out.println("\nContents of hashMap after adding duplicate : "); 
+        System.out.print(hashMap.entrySet()); 
+          
+        /*--------------Hashtable----------------*/
+          
+        // Instantiate an object of Hashtable named hashTable 
+        Hashtable<Integer, String> hashTable = new Hashtable<Integer, String>(); 
+          
+        // Add elements using put() 
+        hashTable.put(11, "This"); 
+        hashTable.put(12, "is"); 
+        hashTable.put(13, "Hashtable"); 
+          
+        // Print the Hashtable contents on the console 
+        System.out.println("\n\nContents of hashTable : "); 
+        System.out.print(hashTable.entrySet()); 
+  
+        // Add a duplicate key 
+        hashTable.put(11, "Duplicate"); 
+          
+        // Add a duplicate value 
+        hashTable.put(14, "is"); 
+          
+        // Print the Hashtable contents on the console 
+        System.out.println("\nContents of hashTable after adding duplicate : "); 
+        System.out.print(hashTable.entrySet()); 
+          
+        /*---------------LinkedHashMap---------------*/
+          
+        // Instantiate an object of LinkedHashMap named linkedHashMape 
+        LinkedHashMap<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>(); 
+          
+        // Add elements using put() 
+        linkedHashMap.put(21, "This"); 
+        linkedHashMap.put(22, "is"); 
+        linkedHashMap.put(23, "LinkedHashMap"); 
+          
+        // Print the LinkedHashMap contents on the console 
+        System.out.println("\n\nContents of linkedHashMap : "); 
+        System.out.print(linkedHashMap.entrySet()); 
+          
+        // Add a duplicate key 
+        linkedHashMap.put(22, "Duplicate"); 
+          
+        // Add a duplicate value 
+        linkedHashMap.put(24, "This"); 
+          
+        // Print the LinkedHashMap contents on the console 
+        System.out.println("\nContents of linkedHashMap after adding duplicate : "); 
+        System.out.print(linkedHashMap.entrySet()); 
+    } 
+  
+
+Contents of hashMap : 
+[1=This, 2=is, 3=HashMap]
+Contents of hashMap after adding duplicate : 
+[1=This, 2=is, 3=Duplicate, 4=This]
+
+Contents of hashTable : 
+[13=Hashtable, 12=is, 11=This]
+Contents of hashTable after adding duplicate : 
+[14=is, 13=Hashtable, 12=is, 11=Duplicate]
+
+Contents of linkedHashMap : 
+[21=This, 22=is, 23=LinkedHashMap]
+Contents of linkedHashMap after adding duplicate : 
+[21=This, 22=Duplicate, 23=LinkedHashMap, 24=This]
+
+
+
+_____________________________________________________________________________________________________________________________________________________________
+ SortedMap
+The SortedMap interface extends the Map interface with an added stipulation of a total order of keys. The keys are either ordered by natural ordering or by a Comparator specified at the time of construction, depending on the constructor used. All of the keys must be comparable.
+_____________________________________________________________________________________________________________________________________________________________
+
+Navigable Map:
+It is sub interface of SortedMap.
+It is having navigable methods.A navigableMap may be accessed and traversed in either asending and descending key order.
+
+_____________________________________________________________________________________________________________________________________________________________
+
+
+
+ TreeMap
+The TreeMap class implements the NavigableMap(SortedMap) interface. The TreeMap class uses a red-black tree structure for storage and a map for ordering the elements. Every element is a key-value pair. This implementation gives a guaranteed log(n) time cost for basic operations.
+When we try to add a duplicate key with a different value the older instance is replaced with the new value associated with this key. But when we try to add a duplicate value with a new key it is taken as a different entry.
+It is unsynchronized collection.Can make it synchronized using Collections.synchronzedSortedMap().
+Java TreeMap is a data structure that implements Map<Key,Value> interface and it based on Red-Black tree data structure.
+TreeMap is a Map implementation that keeps its entries sorted according to the natural ordering of its keys. For numbers it means ascending order, for strings — alphabetical order. However it is possible to use a comparator if you need to change the logic of ordering.
+___________________________________________________________
+The great thing about it is that you can find some objects using different filters and conditions.
+For example let's choose all the cats from letters "b" to "s" from a cat collection. We are going to use a subMap() method for this.
+
+public class Solution {
+    public static void main(String[] args) throws Exception {
+        String[] cats = new String[]{"Fluffy", "Abby", "Boris", "Ginger", "Grey", "Snowy", "Boss", "Waldo", "Tom", "Garfield"};
+
+        TreeMap<String, Cat> treeMap = addCatsToTreeMap(cats);
+        System.out.println(treeMap.subMap("Boris", true,"Snowy",true));
+    }
+
+    public static TreeMap<String, Cat> addCatsToTreeMap(String[] cats) {
+        TreeMap<String,Cat> myCats = new TreeMap<String, Cat>();
+        for (int i = 0; i < cats.length; i++) {
+            Cat cat = new Cat(cats[i]);
+            myCats.put(cat.name, cat);
+        }
+        return myCats;
+    }
+
+    public static class Cat {
+        String name;
+
+        public Cat(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name != null ? name.toUpperCase() : null;
+        }
+    }
+}
+
+
+o/p:{Boris=BORIS, Boss=BOSS, Fluffy=FLUFFY, Garfield=GARFIELD, Ginger=GINGER, Grey=GREY, Snowy=SNOWY}
+_______________________________________________________
+
+TreeMap<? , ?> treeMapName = new TreeMap<? , ?>();
+
+ // Instantiate an object of TreeMap named treeMap 
+        TreeMap<Integer, String> treeMap = new TreeMap<Integer, String>(); 
+          
+        // Add elements using put() 
+        treeMap.put(1, "This"); 
+        treeMap.put(2, "is"); 
+        treeMap.put(3, "TreeMap"); 
+          
+        // Print the contents of treeMap on the console 
+        System.out.println("The contents of treeMap : "); 
+        System.out.println(treeMap); 
+          
+        // Add a duplicate key 
+        treeMap.put(1, "Duplicate"); 
+          
+        // Add a duplicate value 
+        treeMap.put(4, "is"); 
+          
+        // Print the contents of treeMap on the console 
+        System.out.println("\nThe contents of treeMap after adding duplicates : "); 
+        System.out.println(treeMap); 
+
+
+
+The contents of treeMap : 
+{1=This, 2=is, 3=TreeMap}
+
+The contents of treeMap after adding duplicates : 
+{1=Duplicate, 2=is, 3=TreeMap, 4=is}
+
+
+_____________________________________________________________________________________________________________________________________________________________
+
+
+
+
+_____________________________________________________________________________________________________________________________________________________________
+
+
+
+
+_____________________________________________________________________________________________________________________________________________________________
+
+
+
+*************************************************************************************************************************************************************
+List vs. Set:
+
+The Java List and Java Set interfaces are quite similar in that they both represents a collection of elements. However, there are some significant differences. These differences are reflected in the methods the List and Set interfaces offer.
+
+The first difference between the Java List and Java Set interface is, that the same element can occur more than once in a Java List. This is different from a Java Set where each element can occur only once.
+
+The second difference between a Java List and Java Set interfaces is, that the elements in a List has an order, and the elements can be iterated in that order. A Java Set does not make any promises about the order of the elements kept internally.
+_____________________________________________________________________________________________________________________________________________________________
+
+*Array vs ArrayList:
+
+An array is basic functionality provided by Java. ArrayList is part of collection framework in Java. 
+Array is a fixed length data structure whereas ArrayList is a variable length Collection class. 
+We cannot change length of array once created in Java but ArrayList can be changed. 
+We cannot store primitives in ArrayList, it can only store objects. But array can contain both primitives and objects in Java.
+Therefore array members are accessed using [], while ArrayList has a set of methods to access elements 
+ System.out.println(arr[0]); 
+ System.out.println(arrL.get(0)); 
+Array can be multi dimensional , while ArrayList is always single dimensional.
+We can insert elements into the arraylist object using the add() method while  in array we insert elements using the assignment operator.
+Length of the ArrayList is provided by the size() method while Each array object has the length variable which returns the length of the array.
+ We can use iterator  to iterate through ArrayList .
+We can use for loop or for each loop to iterate through array.
+Array is homogeneous data structure(can store elements of only one type) while we can store multiple data types in arraylist if the arraylist is not typed using generics.
+
+_____________________________________________________________________________________________________________________________________________________________
+
+*ArrayList vs LinkedList:
+ArrayList internally uses a dynamic array to store the elements. LinkedList internally uses a doubly linked list to store the elements.
+
+ArrayList implements List interface,so act as a list .LinkedList class can act as a list and queue both because it implements List and Deque interfaces.
+ArrayList is better for storing and accessing data.LinkedList is better for manipulating stored data.
+
+Inserting and deleting is better with linkedlist.
+
+Manipulating ArrayList takes more time due to the internal implementation. Whenever we remove an element, internally, the array is traversed and the memory bits are shifted.Manipulating LinkedList takes less time compared to ArrayList because, in a doubly-linked list, there is no concept of shifting the memory bits. The list is traversed and the reference link is changed.
+
+Search: ArrayList search operation is pretty fast compared to the LinkedList search operation. get(int index) in ArrayList gives the performance of O(1) while LinkedList performance is O(n).(ArrayList maintains index based system for its elements as it uses array data structure implicitly which makes it faster for searching an element in the list. On the other side LinkedList implements doubly linked list which requires the traversal through all the elements for searching an element.)
+
+Deletion: LinkedList remove operation gives O(1) performance while ArrayList gives variable performance: O(n) in worst case (while removing first element) and O(1) in best case (While removing last element).LinkedList element deletion is faster compared to ArrayList.
+
+LinkedList add method gives O(1) performance while ArrayList gives O(n) in worst case. 
+
+LinkedList has more memory overhead than ArrayList because in ArrayList each index only holds an actual object (data) but in case of LinkedList, each node holds both data and address of next and previous node.
+_____________________________________________________________________________________________________________________________________________________________
+
+*ArrayList vs Vector :
+
+ArrayList is non-synchronized(multiple threads can work on arrayList at the same time). Vector is synchronized.
+ArrayList is faster, since it is non-synchronized, while vector operations give slower performance since they are synchronized (thread-safe). If one thread works on a vector, it has acquired a lock on it, which forces any other thread wanting to work on it to have to wait until the lock is released.
+ArrayList increments 50% of its current size if element added exceeds its capacity. Vector increments 100% of its current size if element added exceeds its capacity.
+Vector can use both Enumeration and Iterator for traversing over elements of vector while ArrayList can only use Iterator for traversing.
+Most of the time, programmers prefer ArrayList over Vector because ArrayList can be synchronized explicitly using Collections.synchronizedList.
+vector is legacy class and arraylist is not.
+_____________________________________________________________________________________________________________________________________________________________
+
+Difference between List, Set, and Map in Java
+
+1) Duplicity: List allows duplicate elements. Any number of duplicate elements can be inserted into the list without affecting the same existing values and their indexes.
+Set doesn’t allow duplicates. Set and all of the classes which implements Set interface should have unique elements.
+Map stored the elements as key & value pair. Map doesn’t allow duplicate keys while it allows duplicate values.
+
+2) Null values: List allows any number of null values.
+Set allows single null value at most.
+Map can have single null key at most and any number of null values.
+
+3) Order: List and all of its implementation classes maintains the insertion order.
+Set doesn’t maintain any order; still few of its classes sort the elements in an order such as LinkedHashSet maintains the elements in insertion order.
+Similar to Set Map also doesn’t stores the elements in an order, however few of its classes does the same. For e.g. TreeMap sorts the map in the ascending order of keys and LinkedHashMap sorts the elements in the insertion order, the order in which the elements got added to the LinkedHashMap.
+List is an ordered collection .Set represents an unordered collection but some of its implementation classes maintains some order. LinkedHashSet maintains order, TreeSet maintains ascending order.Like Set, Map also represents an unordered collection. Again same like Set, some of its implementation classes maintains some order. TreeMap maintains ascending order of keys.
+
+4]Implementation classes:
+List implementation classes are Array List, LinkedList.
+Set implementation classes are HashSet, LinkedHashSet, and TreeSet. 
+Map implementation classes are HashMap, HashTable, TreeMap, ConcurrentHashMap, and LinkedHashMap.
+
+_____________________________________________________________________________________________________________________________________________________________
+When to use List, Set and Map in Java?
+1) If you do not want to have duplicate values in the database then Set should be your first choice as all of its classes do not allow duplicates.
+2) If there is a need of frequent search operations based on the index values then List (ArrayList) is a better choice.
+3) If there is a need of maintaining the insertion order then also the List is a preferred collection interface.
+4) If the requirement is to have the key & value mappings in the database then Map is your best bet.
+_____________________________________________________________________________________________________________________________________________________________
+
+What are the Legacy Classes in Java? 
+Early versions of java did not include Collections framework. Instead it defined several classes and one interface to store objects. When collection came these classes reengineered to support the Collection interfaces. These old classes are known are legacy classes.
+Legacy classes and interfaces are the classes and interfaces that formed the collections framework in the earlier versions of Java and how now been restructured or re-engineered. They are fully compatible with the framework.
+
+What are the Legacy classes in Java?
+Dictionary
+Properties
+HashTable
+Vector
+Stack
+
+Legacy Interface
+Enumeration
+_____________________________________________________________________________________________________________________________________________________________
+Hashmap vs Hashtable vs Treemap vs LinkedHashmap:
+
+Hashmap :HashMap is a data structure that implements Map<Key,Value> interface and it based on hashing principle..It is implemented based on the hashtable and there is no specific ordering on the keys as well as the values.
+
+Hashtable : Hashtable is a class which inherits Dictionary class and implements the Map interface. It is basically an array of list type know as buckets. The positioning of each bucket is identified using the hashcode() and then it maps the unique keys to the values. It’s a synchronized class which do not contain any null key or value.
+
+TreeMap: Its implementation is based on the red-black tree structure and follows the natural ordering of the key-value pairs.(sorted sequence)
+
+LinkedHashMap: It works simplest among all by just following the insertion order of the key-value pairs.
+_____________________________________________________________________________________________________________________________________________________________
+Hashmap vs Treemap:
+
+*HashMap is a data structure that implements Map<Key,Value> interface and It is implemented based on the hashtable.TreeMap is based on  the red-black tree structure.
+Hashmap implements map , clonable , serializable interfaces while treemap implements map , sortedmap , navigablemap , clonable and serializable.
+HashMap is not ordered, while TreeMap sorts by key. How items are stored depends on the hash function of the keys.
+TreeMap, which implements not only Map but also NavigableMap automatically sorts pairs by their keys natural orders (according to their compareTo() method or an externally supplied Comparator).
+HashMap is faster and provides average constant time performance O(1) for the basic operations get() and put().Treemap slow bcz it provides performance of 
+0(log(n)) for add,remove and containts
+HashMap is faster and provides average constant time performance O(1) for the basic operations get() and put() if collision doesnt happen , else 0(n).
+HashMap almost always works faster than TreeMap. The larger the object that's stored, the faster HashMap will be in comparison to TreeMap. However, a TreeMap uses the optimal amount of memory to hold its items, unlike a HashMap.
+Hashmap allows heterogeneous elemenets bcz it does not perform sorting on keys m where as treemap allows homogeneous values as key bcz of sorting.
+Hashmap contains get(), put() , keyset() only but treemap is rich in functionalities as it contains functions like firstkey(), lastkey(),pollfirstentry(),polllastentry(),tailmap(), etc.
+
+
+1]HashMap allow you to store one null key and multiple null values. It keeps entry with a null key in index[0] of an internal bucket. HashMap also allows storing many null values.
+import java.util.HashMap;
+public class Test {
+    public static void main(String[] args) throws Exception {
+
+        HashMap<String, Integer> hashMap = new HashMap<>();
+        hashMap.put(null, null);
+        hashMap.put ("Fluffy", 7);
+        hashMap.put("Kid", null);
+
+        System.out.println(hashMap);
+    }
+}
+
+o/p {null=null, Fluffy=7, Kid=null}
+
+2]What if we try to add one more element with a null key??
+import java.util.HashMap;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+
+        HashMap<String, Integer> hashMap = new HashMap<>();
+        hashMap.put(null, null);
+        hashMap.put(null, 5);
+        hashMap.put ("Fluffy", 7);
+        hashMap.put("Kid", null);
+
+        System.out.println(hashMap);
+    }
+}
+
+The new entry keeps in index[0] of an internal bucket, so it will be overwritten:
+{null=5, Fluffy=7, Kid=null}
+_______________________________________
+*Treemap::
+TreeMap sorts elements in natural order and doesn't allow null keys because compareTo() method throws NullPointerException if compared with null.but it can have multiple null values.
+treeMap<String, Integer> treeMap = new TreeMap<>();
+treeMap.put(null, 5);
+treeMap.put ("Fluffy", 7);
+treeMap.put("Kid", null);
+
+System.out.println(treeMap);
+We've got a java.lang.NullPointerException.
+
+If you are using TreeMap with user-defined Comparator, work with null entries depends on the implementation of compare() method.
+
+
+import java.util.HashMap;
+import java.util.TreeMap;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        String[] cats = new String[]{"Fluffy", "Abby", "Boris", "Ginger", "Grey", "Snowy", "Boss", "Waldo", "Tom", "Garfield"};
+        Integer age;
+        HashMap<String, Integer> hMap = new HashMap<>();
+        for (int i = 0; i < cats.length; i++) {
+            hMap.put(cats[i], i);
+        }
+        System.out.println("HashMap ordered by hash:");
+        System.out.println(hMap);
+        System.out.println();
+
+        TreeMap<String, Integer> tMap = new TreeMap<>();
+        for (int i = 0; i < cats.length; i++) {
+            tMap.put(cats[i], i);
+        }
+        System.out.println("TreeMap ordered by keys (alphabetical order of the cats' names:");
+        System.out.println(tMap);
+
+    }
+}
+
+HashMap ordered by hash:
+{Fluffy=0, Boss=6, Snowy=5, Tom=8, Garfield=9, Abby=1, Boris=2, Waldo=7, Ginger=3, Grey=4}
+
+Treemap:
+{Abby=1, Boris=2, Boss=6, Fluffy=0, Garfield=9, Ginger=3, Grey=4, Snowy=5, Tom=8, Waldo=7}
+
+_____________________________________________________________________________________________________________________________________________________________
+Hashmap vs Hashtable:
+HashMap and Hashtable store key/value pairs in a hash table. When using a Hashtable or HashMap, we specify an object that is used as a key, and the value that you want linked to that key. The key is then hashed, and the resulting hash code is used as the index at which the value is stored within the table.
+
+
+HashMap is non synchronized. It is not-thread safe and can’t be shared between many threads without proper synchronization code whereas Hashtable is synchronized. It is thread-safe and can be shared with many threads.
+HashMap allows one null key and multiple null values whereas Hashtable doesn’t allow any null key or value.
+HashMap is generally preferred over HashTable if thread synchronization is not needed
+
+
+Why HashTable doesn’t allow null and HashMap does?
+To successfully store and retrieve objects from a HashTable, the objects used as keys must implement the hashCode method and the equals method. Since null is not an object,, you can't call .equals() or .hashCode() on it, so the Hashtable can't compute a hash to use it as a key. HashMap is newer, and has more advanced capabilities, which are basically just an improvement on the Hashtable functionality. When HashMap was created, it was specifically designed to handle null values as keys and handles them as a special case.
+_____________________________________________________________________________________________________________________________________________________________
+Hashset vs Hashmap:
+Hashset implements set interface and hashmap implements map interface.
+Hashset cannot contain duplicate elements while Hashmap allows duplicate values but not duplicate keys.
+Hashset allows at most one null value whereas Hashmap allows at most one null key , but multiple null values.
+Put method of hash map is used to add element in hashmap.On other hand add method of hashset is used to add element in hashset.
+HashSet stores only objects no such key value pairs maintained.HashMap Stores elements in form of key-value pair i.e each element has its corresponding key which is required for its retrieval during iteration.
+Hashmap due to its unique key is faster in retrieval of element during its iteration.HashSet is completely based on object so compared to hashmap is slower.
+HashMap is faster/ than HashSet because values are associated with a unique key. HashSet is slower than HashMap because the member object is used for calculating hashcode value, which can be same for two objects.
+_____________________________________________________________________________________________________________________________________________________________
+
+
+Synchronized collections:
+vector 
+stack
+properties
+hashtable
+_____________________________________________________________________________________________________________________________________________________________
+Generics:
+In generics , ? is wild card which indicates unknown type.
+
+
+
+Generics allow types Integer, String, or even user-defined types to be passed as a parameter to classes, methods, or interfaces. Generics are mostly used by classes like HashSet or HashMap.
+The Java Generics allows us to create a single class, interface, and method that can be used with different types of data (objects).
+This helps us to reuse our code.
+
+Note: Generics does not work with primitive types (int, float, char, etc).
+
+*Advantages of using generics
+Compile-time Type Checking:
+Generics gives us stronger type checking at compile time.
+The type parameter of generics provides information about the type of data used in the generics code. For example,
+// using Generics
+GenericsClass<Integer> list = new GenericsClass<>();
+Here, we know that GenericsClass is working with Integer data only.
+Now, if we try to pass data other than Integer to this class, the program will generate an error at compile time.
+
+Code Reusability:
+With the help of generics in Java, we can write code that will work with different types of data. For example,
+public <T> void genericsMethod(T data) {...}
+Here, we have created a generics method. This same method can be used to perform operations on integer data, string data, and so on.
+Java Generics helps the programmer to reuse the code for whatever type he/she wishes. For instance, a programmer writes a generic method for sorting an array of objects. Generics allow the programmer to use the same method for Integer arrays, Double arrays, and even String arrays.
+
+Another advantage of using generics is that Individual typecasting isn’t required. The programmer defines the initial type and then lets the code do its job.
+Generics eliminates explicit type casting.
+It allows us to implement non-generic algorithms.
+
+Used with Collections:
+The collections framework uses the concept of generics in Java. For example,
+// creating a string type ArrayList
+ArrayList<String> list1 = new ArrayList<>();
+// creating a integer type ArrayList
+ArrayList<Integer> list2 = new ArrayList<>();
+In the above example, we have used the same ArrayList class to work with different types of data.
+
+Similar to ArrayList, other collections (LinkedList, Queue, Maps, and so on) are also generic in Java.
+
+
+
+public static void main(String[] args) {
+
+    // initialize generic class
+    // with Integer data
+    GenericsClass<Integer> intObj = new GenericsClass<>(5);
+    System.out.println("Generic Class returns: " + intObj.getData());
+
+    // initialize generic class
+    // with String data
+    GenericsClass<String> stringObj = new GenericsClass<>("Java Programming");
+    System.out.println("Generic Class returns: " + stringObj.getData());
+  }
+}
+
+// create a generics class
+class GenericsClass<T> {
+
+  // variable of T type
+  private T data;
+
+  public GenericsClass(T data) {
+    this.data = data;
+  }
+
+  // method that return T type variable
+  public T getData() {
+    return this.data;
+  }
+}
+
+
+
+In the above example, we have created a generic class named GenericsClass. This class can be used to work with any type of data.
+
+class GenericsClass<T> {...}
+Here, T used inside the angle bracket <> indicates the type parameter. Inside the Main class, we have created two objects of GenericsClass
+
+intObj - Here, the type parameter T is replaced by Integer. Now, the GenericsClass works with integer data.
+stringObj - Here, the type parameter T is replaced by String. Now, the GenericsClass works with string data.
+
+_________________________
+
+class Main {
+  public static void main(String[] args) {
+
+    // initialize the class with Integer data
+    DemoClass demo = new DemoClass();
+
+    // generics method working with String
+    demo.<String>genericsMethod("Java Programming");
+
+    // generics method working with integer
+    demo.<Integer>genericsMethod(25);
+  }
+}
+
+class DemoClass {
+
+  // creae a generics method
+  public <T> void genericsMethod(T data) {
+    System.out.println("Generics Method:");
+    System.out.println("Data Passed: " + data);
+  }
+}
+_________________________
+Bounded Types:
+
+In general, the type parameter can accept any data types (except primitive types).
+However, if we want to use generics for some specific types (such as accept data of number types) only, then we can use bounded types.
+
+In the case of bound types, we use the extends keyword. For example,
+<T extends A>
+This means T can only accept data that are subtypes of A.
+
+
+class GenericsClass <T extends Number> {
+
+  public void display() {
+    System.out.println("This is a bounded type generics class.");
+  }
+}
+
+class Main {
+  public static void main(String[] args) {
+
+    // create an object of GenericsClass
+    GenericsClass<String> obj = new GenericsClass<>();
+  }
+}
+
+
+In the above example, we have created a class named GenericsClass. Notice the expression, notice the expression
+<T extends Number> 
+Here, GenericsClass is created with bounded type. This means GenericsClass can only work with data types that are children of Number (Integer, Double, and so on).
+
+_____________________________________________________________________________________________________________________________________________________________
+
+Marker Interface:
+It is an empty interface (no field or methods). It is also known as a tagging interface and is used to indicate or inform the JVM that a class implementing this interface will have some special behaviour. An efficient way to classify code can be achieved using the marker interface.
+
+Examples of marker interface are :
+Serializable, 
+Cloneable ,
+Remote ,
+RandomAccess , 
+EventListner interface. 
+All these interfaces are empty interfaces.
+
+public interface Serializable 
+{
+  // nothing here
+}
+
+Cloneable Interface:
+This interface can be found in the java.lang package. Cloning is the mechanism of generating a replica or an exact copy of an object with a different name.
+The Cloneable Interface is implemented by a class to indicate to the object.clone() method that it is legal for the method to make a field-for-field copy of instances of that class.
+A CloneNotSupportedException is thrown for a class which invokes the clone method without implementing a cloneable interface.
+
+import java.lang.Cloneable;
+class javaClone implements Cloneable
+{
+int j;
+String s;
+// Defining a class constructor
+public javaClone(int j,String s)
+{
+this.j = j;
+this.s = s;
+}
+// Overriding clone() method
+@Override
+protected Object clone()
+throws CloneNotSupportedException
+{
+return super.clone();
+}
+}
+public class Main
+{
+public static void main(String[] args)
+throws CloneNotSupportedException
+{
+javaClone c = new javaClone(18, "HelloWorld");
+// cloning 'c' and holding
+// new cloned object reference in b
+// down-casting
+javaClone b = (javaClone)c.clone();
+System.out.println(b.j);
+System.out.println(b.s);
+}
+}
+
+Output:
+18
+HelloWorld
+
+
+
+Serializable Interface
+Serialization in java can be defined as the process of converting the state of an object into a byte stream. This can be achieved by using the serializable interface which is present in java.io.package. It must be noted that the all subtypes of a serializable class are themselves serializable.
+
+
+import java.io.*;
+class Main implements Serializable
+{
+int j;
+String s;
+// A class constructor
+public Main(int j,String s)
+{
+this.j = j;
+this.s = s;
+}
+}
+public class Test
+{
+public static void main(String[] args)
+throws IOException, ClassNotFoundException
+{
+Main obj = new Main(25,"HelloWorld");
+// Serializing 'obj'
+FileOutputStream fos = new FileOutputStream("pqr.txt");
+ObjectOutputStream oos = new ObjectOutputStream(fos);
+oos.writeObject(obj);
+// De-serializing 'obj'
+FileInputStream fis = new FileInputStream("pqr.txt");
+ObjectInputStream ois = new ObjectInputStream(fis);
+Main b = (Main)ois.readObject(); //down-casting object
+System.out.println(b.j+" "+b.s);
+// closing streams
+oos.close();
+ois.close();
+}
+}
+Output:
+25 HelloWorld
+
+_____________________________________________________________________________________________________________________________________________________________
+Functional Interfaces:
+
+A functional interface is an interface that contains only one abstract method. They can have only one functionality to exhibit. From Java 8 onwards, lambda expressions can be used to represent the instance of a functional interface. A functional interface can have any number of default and static methods. Runnable, ActionListener, Comparable ,comparator are some of the examples of functional interfaces.
+
+@FunctionalInterface Annotation
+@FunctionalInterface annotation is used to ensure that the functional interface can’t have more than one abstract method. In case more than one abstract methods are present, the compiler flags an ‘Unexpected @FunctionalInterface annotation’ message. However, it is not mandatory to use this annotation.
+
+Functional Interfaces Can Be Implemented by a Lambda Expression
+A Java functional interface can be implemented by a Java Lambda Expression. Here is an example that implements the functional interface MyFunctionalInterface defined in the beginning of this Java functional interface tutorial:
+MyFunctionalInterface lambda = () -> {
+    System.out.println("Executing...");
+}
+A Java lambda expression implements a single method from a Java interface. In order to know what method the lambda expression implements, the interface can only contain a single unimplemented method. In other words, the interface must be a Java functional interface.
+_____________________________________________________________________________________________________________________________________________________________
+Comparable  vs	Comparator:
+A comparable object is capable of comparing itself with another object. The class itself must implements the java.lang.Comparable interface to compare its instances. 
+Unlike Comparable, Comparator is external to the element type we are comparing. It’s a separate class. We create multiple separate classes (that implement Comparator) to compare by different members.
+Collections class has a second sort() method and it takes Comparator. The sort() method invokes the compare() to sort objects.
+steps:
+Create a class that implements Comparator (and thus the compare() method that does the work previously done by compareTo()).
+Make an instance of the Comparator class.
+Call the overloaded sort() method, giving it both the list and the instance of the class that implements Comparator.
+
+1) Comparable provides a single sorting sequence. In other words, we can sort the collection on the basis of a single element such as id, name, and price.	The Comparator provides multiple sorting sequences. In other words, we can sort the collection on the basis of multiple elements such as id, name, and price etc.
+
+Logically, Comparable interface compares “this” reference with the object specified and Comparator in Java compares two different class objects provided.
+
+2) Comparable affects the original class, i.e., the actual class is modified.	
+Comparator doesn't affect the original class, i.e., the actual class is not modified.
+
+3) Comparable provides compareTo() method to sort elements.	
+Comparator provides compare() method to sort elements.
+
+4) Comparable is present in java.lang package.	
+A Comparator is present in the java.util package.
+
+5) We can sort the list elements of Comparable type by Collections.sort(List) method.	
+We can sort the list elements of Comparator type by Collections.sort(List, Comparator) method.
+
+6]The Comparable interface has compareTo(T obj) method which is used by sorting methods, you can check any Wrapper, String or Date class to confirm this. We should override this method in such a way that it returns a negative integer, zero, or a positive integer if “this” object is less than, equal to, or greater than the object passed as an argument.
+Comparator interface compare(Object o1, Object o2) method need to be implemented that takes two Object argument, it should be implemented in such a way that it returns negative int if the first argument is less than the second one and returns zero if they are equal and positive int if the first argument is greater than the second one.
+_______________________________________________________________
+Comparable:
+
+class Student implements Comparable<Student>{  
+
+int rollno;  
+String name;  
+int age;  
+
+Student(int rollno,String name,int age){  
+this.rollno=rollno;  
+this.name=name;  
+this.age=age;  
+}  
+
+public int compareTo(Student st){  
+if(age==st.age)  
+return 0;  
+else if(age>st.age)  
+return 1;  
+else  
+return -1;  
+}  
+}  
+
+//Creating a test class to sort the elements  
+public class TestSort3{  
+
+public static void main(String args[])
+{  
+ArrayList<Student> al=new ArrayList<Student>();  
+
+al.add(new Student(101,"Vijay",23));  
+al.add(new Student(106,"Ajay",27));  
+al.add(new Student(105,"Jai",21));  
+  
+Collections.sort(al);  
+for(Student st:al){  
+System.out.println(st.rollno+" "+st.name+" "+st.age);  
+}  
+
+}  
+}  
+_______________________________________________________________
+
+Comparator:
+
+				Student.java
+class Student{  
+int rollno;  
+String name;  
+int age;  
+Student(int rollno,String name,int age){  
+this.rollno=rollno;  
+this.name=name;  
+this.age=age;  
+}  
+}  
+
+
+				AgeComparator.java
+import java.util.*;  
+class AgeComparator implements Comparator<Student>{  
+public int compare(Student s1,Student s2){  
+if(s1.age==s2.age)  
+return 0;  
+else if(s1.age>s2.age)  
+return 1;  
+else  
+return -1;  
+}  
+}  
+
+				NameComparator.java
+import java.util.*;  
+class NameComparator implements Comparator<Student>{  
+public int compare(Student s1,Student s2){  
+return s1.name.compareTo(s2.name);  
+}  
+}  
+
+				TestComparator.java
+
+
+import java.util.*;  
+import java.io.*;  
+class TestComparator{  
+public static void main(String args[]){  
+
+//Creating a list of students  
+ArrayList<Student> al=new ArrayList<Student>();  
+al.add(new Student(101,"Vijay",23));  
+al.add(new Student(106,"Ajay",27));  
+al.add(new Student(105,"Jai",21));  
+  
+System.out.println("Sorting by Name");  
+Collections.sort(al,new NameComparator());  
+for(Student st: al){  
+System.out.println(st.rollno+" "+st.name+" "+st.age);  
+}  
+  
+System.out.println("sorting by Age");  
+Collections.sort(al,new AgeComparator());  
+
+//Travering the list again  
+for(Student st: al){  
+System.out.println(st.rollno+" "+st.name+" "+st.age);  
+}  
+  
+}  
+}  
+
+_____________________________________________________________________________________________________________________________________________________________
+
+

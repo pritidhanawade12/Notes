@@ -1,0 +1,202 @@
+final vs finally vs finalize:
+
+final:Final is a reserved keyword in java.
+Final is used to apply restrictions on class, method and variable. Final class can't be inherited, final method can't be overridden and final variable value can't be changed.
+
+
+finally:Finally is a block.It is also a reserved keyword in java.
+Finally is used to place important code, it will be executed whether exception is handled or not.
+
+finalize:Final is a method of object class.
+Finalize is used to perform clean up processing just before object is garbage collected.
+It is a method that the Garbage Collector always calls just before the deletion/destroying the object which is eligible for Garbage Collection, so as to perform clean-up activity. Clean-up activity means closing the resources associated with that object like Database Connection, Network Connection or we can say resource de-allocation. Remember it is not a reserved keyword.
+Once the finalize method completes immediately Garbage Collector destroy that object. finalize method is present in Object class and its syntax is:
+	protected void finalize throws Throwable{}
+Since Object class contains the finalize method hence finalize method is available for every java class since Object is the superclass of all java classes. Since it is available for every java class hence Garbage Collector can call finalize method on any java object
+
+
+class Hello { 
+    public static void main(String[] args) 
+    { 
+        String s = new String("RR"); 
+        s = null; 
+  
+        // Requesting JVM to call Garbage Collector method 
+        System.gc(); 
+        System.out.println("Main Completes"); 
+    } 
+  
+    // Here overriding finalize method 
+    public void finalize() 
+    { 
+        System.out.println("finalize method overriden"); 
+    } 
+} 
+
+
+
+Here above output came only Main Completes and not “finalize method overriden” because Garbage Collector call finalize method on that class object which is eligible for Garbage collection. Here above we have done->
+s = null and ‘s’ is the object of String class, so String class finalize method is going to be called and not our class(i.e, Hello class). So we modify our code like->
+Hello s = new Hello();
+s = null;
+
+
+Now our class i.e, Hello class finalize method is called. Output:
+finalize method overriden
+Main Completes
+
+
+So basically, Garbage Collector calls finalize method on that class object which is eligible for Garbage collection.So if String object is eligible for Garbage Collection then String class finalize method is going to be called and not the Hello class finalize method.
+
+As finalize is a method and not a reserved keyword, so we can call finalize method Explicitly, then it will be executed just like normal method call but object won’t be deleted/destroyed.
+
+
+
+class Hi { 
+    public static void main(String[] args) 
+    { 
+        Hi j = new Hi(); 
+  
+        // Calling finalize method Explicitly. 
+        j.finalize(); 
+  
+        j = null; 
+  
+        // Requesting JVM to call Garbage Collector method 
+        System.gc(); 
+        System.out.println("Main Completes"); 
+    } 
+  
+    // Here overriding finalize method 
+    public void finalize() 
+    { 
+        System.out.println("finalize method overriden"); 
+        System.out.println(10 / 0); 
+    } 
+} 
+
+
+If programmer calls finalize method, while executing finalize method some unchecked exception rises, then JVM terminates the program abnormally by rising exception. So in this case the program termination is Abnormal.
+
+
+class RR { 
+    public static void main(String[] args) 
+    { 
+        RR q = new RR(); 
+        q = null; 
+  
+        // Requesting JVM to call Garbage Collector method 
+        System.gc(); 
+        System.out.println("Main Completes"); 
+    } 
+  
+    // Here overriding finalize method 
+    public void finalize() 
+    { 
+        System.out.println("finalize method overriden"); 
+        System.out.println(10 / 0); 
+    } 
+} 
+Output:
+
+
+If Garbage Collector calls finalize method, while executing finalize method some unchecked exception rises then JVM ignores that exception and rest of program will be continued normally. So in this case the program termination is Normal and not abnormal.
+
+*Important points:
+There is no guarantee about the time when finalize is called. It may be called any time after the object is not being referred anywhere (cab be garbage collected).
+JVM does not ignore all exceptions while executing finalize method, but it ignores only Unchecked exceptions. If the corresponding catch block is there then JVM won’t ignore and corresponding catch block will be executed.
+System.gc() is just a request to JVM to execute the Garbage Collector. It’s up-to JVM to call Garbage Collector or not.Usually JVM calls Garbage Collector when there is not enough space available in the Heap area or when the memory is low.
+
+*************************************************************************************************************************************************************
+
+JDBC connection steps :
+JDBC (Java Database Connectivity) is the Java API that manages connecting to a database, issuing queries and commands, and handling result sets obtained from the database. 
+
+
+JDBC offers a programming-level interface that handles the mechanics of Java applications communicating with a database or RDBMS. The JDBC interface consists of two layers:
+
+The JDBC API supports communication between the Java application and the JDBC manager.
+The JDBC driver supports communication between the JDBC manager and the database driver.
+_____________________________________
+
+There are 5 steps to connect any java application with the database using JDBC. These steps are as follows:
+Register the Driver class
+Create connection
+Create statement
+Execute queries
+Close connection
+
+
+1) Register the driver class
+The forName() method of Class class is used to register the driver class. This method is used to dynamically load the driver class.
+Class.forName("com.mysql.cj.jdbc.Driver");		//class will be loaded automatically (thin driver)
+
+2) Create the connection object
+The getConnection() method of DriverManager class is used to establish connection with the database.
+	public static Connection getConnection() throws Exception{
+	Class.forName("com.mysql.cj.jdbc.Driver");		//class will be loaded automatically (thin driver)
+-->	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/deccan_sport_club", "root","cybage@123");
+	return con;
+	}
+
+3) Create the Statement object
+The createStatement() method of Connection interface is used to create statement. The object of statement is responsible to execute queries with the database.
+Statement stmt=con.createStatement();  
+
+4) Execute the query
+The executeQuery() method of Statement interface is used to execute queries to the database. This method returns the object of ResultSet that can be used to get all the records of a table.
+ResultSet rs=stmt.executeQuery("select * from emp");  
+while(rs.next()){  
+System.out.println(rs.getInt(1)+" "+rs.getString(2));  
+
+5) Close the connection object
+By closing connection object statement and ResultSet will be closed automatically. The close() method of Connection interface is used to close the connection.
+con.close();  
+
+
+OR 
+
+____________________________________________________________
+
+	//with connection pool
+	public static Connection getConnection() throws Exception{
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = getDataSource().getConnection();   //Dhcp2
+		return con;
+	}
+
+	private static BasicDataSource getDataSource()
+	{        
+		BasicDataSource ds = new BasicDataSource();
+		ds.setUrl(dbURL);
+		ds.setUsername(dbUser);
+		ds.setPassword(dbPassword);
+		ds.setMinIdle(5);
+		ds.setMaxIdle(10);
+		ds.setMaxOpenPreparedStatements(100); 
+		return ds;
+	}
+	
+
+*************************************************************************************************************************************************************
+Compiler vs Interpreter:
+
+Both compilers and interpreters are used to convert a program written in a high-level language into machine code understood by computers. However, there are differences between how an interpreter and a compiler works.
+
+
+Interpreter vs Compiler:
+___________________________
+Translates program one statement at a time.	
+Compiler Scans the entire program and translates it as a whole into machine code.
+
+Interpreters usually take less amount of time to analyze the source code. However, the overall execution time is comparatively slower than compilers.	
+Compilers usually take a large amount of time to analyze the source code. However, the overall execution time is comparatively faster than interpreters.
+
+No intermediate object code is generated, hence are memory efficient.	
+Generates intermediate object code which further requires linking, hence requires more memory.
+
+Programming languages like JavaScript, Python, Ruby use interpreters.	
+Programming languages like C, C++, Java use compilers.
+
+
+

@@ -1,0 +1,380 @@
+What is a Data Dictionary?
+
+In SQL Server the data dictionary is a set of database tables used to store information about a database’s definition.  The dictionary contains information about database objects such as tables, indexes, columns, datatypes, and views.
+The data dictionary is used by SQL Server to execute queries and is automatically updated whenever objects are added, removed, or changed within the database.
+
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+mysql> select * from Employee;
++--------+----------+-----------+------------+------------+--------+-----------+---------+
+| emp_id | emp_name | job_name  | manager_id | hire_date  | salary | commision | dept_id |
++--------+----------+-----------+------------+------------+--------+-----------+---------+
+|   1001 | Priti    | Manager   |       1002 | 2020-09-23 |  20000 |       500 |       1 |
+|   1002 | Komal    | President |       NULL | 2020-09-23 |  80000 |       500 |       1 |
+|   1003 | Shamal   | Manager   |       1002 | 2020-09-23 |  20000 |       500 |       1 |
+|   1004 | Varsha   | Analyst   |       1001 | 2020-09-23 |  20000 |       500 |       1 |
+|   1005 | Mayuri   | Analyst   |       1001 | 2020-09-23 |  20000 |       500 |       1 |
+|   1006 | Mahi     | Analyst   |       1001 | 2020-09-23 |  25000 |       500 |       1 |
+|   1006 | piya     | Analyst   |       1001 | 2020-09-23 |  60000 |       500 |       1 |
+|   1006 | pari     | Analyst   |       1001 | 2020-09-23 |  40000 |       500 |       1 |
++--------+----------+-----------+------------+------------+--------+-----------+---------+
+
+
+mysql> select a.emp_id,a.emp_name,b.emp_id,b.emp_name from Employee a inner join Employee b on a.manager_id=b.emp_id;
++--------+----------+--------+----------+
+| emp_id | emp_name | emp_id | emp_name |
++--------+----------+--------+----------+
+|   1004 | Varsha   |   1001 | Priti    |
+|   1005 | Mayuri   |   1001 | Priti    |
+|   1006 | Mahi     |   1001 | Priti    |
+|   1006 | piya     |   1001 | Priti    |
+|   1006 | pari     |   1001 | Priti    |
+|   1001 | Priti    |   1002 | Komal    |
+|   1003 | Shamal   |   1002 | Komal    |
++--------+----------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select a.emp_id,a.emp_name,b.emp_id,b.emp_name from Employee a left join Employee b on a.manager_id=b.emp_id;
++--------+----------+--------+----------+
+| emp_id | emp_name | emp_id | emp_name |
++--------+----------+--------+----------+
+|   1004 | Varsha   |   1001 | Priti    |
+|   1005 | Mayuri   |   1001 | Priti    |
+|   1006 | Mahi     |   1001 | Priti    |
+|   1006 | piya     |   1001 | Priti    |
+|   1006 | pari     |   1001 | Priti    |
+|   1001 | Priti    |   1002 | Komal    |
+|   1003 | Shamal   |   1002 | Komal    |
+|   1002 | Komal    |   NULL | NULL     |
++--------+----------+--------+----------+
+8 rows in set (0.00 sec)
+
+mysql> select a.emp_id,a.emp_name,b.emp_id,b.emp_name from Employee a left join Employee b on a.emp_id=b.manager_id;
++--------+----------+--------+----------+
+| emp_id | emp_name | emp_id | emp_name |
++--------+----------+--------+----------+
+|   1002 | Komal    |   1001 | Priti    |
+|   1002 | Komal    |   1003 | Shamal   |
+|   1001 | Priti    |   1004 | Varsha   |
+|   1001 | Priti    |   1005 | Mayuri   |
+|   1001 | Priti    |   1006 | Mahi     |
+|   1001 | Priti    |   1006 | piya     |
+|   1001 | Priti    |   1006 | pari     |
+|   1003 | Shamal   |   NULL | NULL     |
+|   1004 | Varsha   |   NULL | NULL     |
+|   1005 | Mayuri   |   NULL | NULL     |
+|   1006 | Mahi     |   NULL | NULL     |
+|   1006 | piya     |   NULL | NULL     |
+|   1006 | pari     |   NULL | NULL     |
++--------+----------+--------+----------+
+13 rows in set (0.00 sec)
+------------------------------------------------------------------------------------------------------------
+
+mysql> select a.emp_id,a.emp_name,b.emp_id,b.emp_name from Employee a, Employee b where a.manager_id=b.emp_id;
++--------+----------+--------+----------+
+| emp_id | emp_name | emp_id | emp_name |
++--------+----------+--------+----------+
+|   1004 | Varsha   |   1001 | Priti    |
+|   1005 | Mayuri   |   1001 | Priti    |
+|   1006 | Mahi     |   1001 | Priti    |
+|   1006 | piya     |   1001 | Priti    |
+|   1006 | pari     |   1001 | Priti    |
+|   1001 | Priti    |   1002 | Komal    |
+|   1003 | Shamal   |   1002 | Komal    |
++--------+----------+--------+----------+
+7 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------------------------------------
+
+mysql> select salary from Employee order by salary desc limit 1,1;
++--------+
+| salary |
++--------+
+|  60000 |
++--------+
+1 row in set (0.00 sec)
+
+---------------------------------------------------------------------------------------------------------------
+
+mysql> select max(salary) from Employee where salary < (select max(salary) from Employee);
++-------------+
+| max(salary) |
++-------------+
+|       60000 |
++-------------+
+1 row in set (0.00 sec)
+
+
+---------------------------------------------------------------------------------------------------------------
+
+mysql> select max(salary) from Employee where salary < (select max(salary) from Employee where salary < (select max(salary) from Employee));
++-------------+
+| max(salary) |
++-------------+
+|       40000 |
++-------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+Views:
+
+Views in SQL are kind of virtual tables. A view also has rows and columns as they are in a real table in the database. We can create a view by selecting fields from one or more tables present in the database. A View can either have all the rows of a table or specific rows based on certain condition.
+
+The view is a query stored in the data dictionary, on which the user can query just like they do on tables. It does not use the physical memory, only the query is stored in the data dictionary. It is computed dynamically, whenever the user performs any query on it. Changes made at any point in view are reflected in the actual base table.
+
+
+CREATE VIEW DetailsView AS
+SELECT NAME, ADDRESS
+FROM StudentDetails
+WHERE S_ID < 5;
+
+
+SELECT * FROM DetailsView;
+---------------------------------------------------------------------------------------------------------------
+
+CREATE VIEW MarksView AS
+SELECT StudentDetails.NAME, StudentDetails.ADDRESS, StudentMarks.MARKS
+FROM StudentDetails, StudentMarks
+WHERE StudentDetails.NAME = StudentMarks.NAME;
+---------------------------------------------------------------------------------------------------------------
+
+DROP VIEW MarksView;
+
+---------------------------------------------------------------------------------------------------------------
+UPDATING VIEWS
+
+There are certain conditions needed to be satisfied to update a view. If any one of these conditions is not met, then we will not be allowed to update the view.
+
+The SELECT statement which is used to create the view should not include GROUP BY clause or ORDER BY clause.
+The SELECT statement should not have the DISTINCT keyword.
+The View should have all NOT NULL values.
+The view should not be created using nested queries or complex queries.
+The view should be created from a single table. If the view is created using multiple tables then we will not be allowed to update the view.
+
+
+We can use the CREATE OR REPLACE VIEW statement to add or remove fields from a view.
+CREATE OR REPLACE VIEW MarksView AS
+SELECT StudentDetails.NAME, StudentDetails.ADDRESS, StudentMarks.MARKS, StudentMarks.AGE
+FROM StudentDetails, StudentMarks
+WHERE StudentDetails.NAME = StudentMarks.NAME;
+
+---------------------------------------------------------------------------------------------------------------
+Inserting a row in a view:
+We can insert a row in a View in a same way as we do in a table. We can use the INSERT INTO statement of SQL to insert a row in a View
+
+INSERT INTO DetailsView(NAME, ADDRESS)
+VALUES("Suresh","Gurgaon");
+---------------------------------------------------------------------------------------------------------------
+Deleting a row from a View:
+Deleting rows from a view is also as simple as deleting rows from a table. We can use the DELETE statement of SQL to delete rows from a view. Also deleting a row from a view first delete the row from the actual table and the change is then reflected in the view
+
+DELETE FROM DetailsView
+WHERE NAME="Suresh";
+
+
+---------------------------------------------------------------------------------------------------------------
+WITH CHECK OPTION
+
+The WITH CHECK OPTION clause in SQL is a very useful clause for views. It is applicable to a updatable view. If the view is not updatable, then there is no meaning of including this clause in the CREATE VIEW statement.
+
+The WITH CHECK OPTION clause is used to prevent the insertion of rows in the view where the condition in the WHERE clause in CREATE VIEW statement is not satisfied.
+If we have used the WITH CHECK OPTION clause in the CREATE VIEW statement, and if the UPDATE or INSERT clause does not satisfy the conditions then they will return an error.
+
+CREATE VIEW SampleView AS
+SELECT S_ID, NAME
+FROM  StudentDetails
+WHERE NAME IS NOT NULL
+WITH CHECK OPTION;
+
+In this View if we now try to insert a new row with null value in the NAME column then it will give an error because the view is created with the condition for NAME column as NOT NULL.
+
+---------------------------------------------------------------------------------------------------------------
+Uses of a View :
+A good database should contain views due to the given reasons:
+
+Restricting data access –
+Views provide an additional level of table security by restricting access to a predetermined set of rows and columns of a table.
+
+Hiding data complexity –
+A view can hide the complexity that exists in a multiple table join.
+
+Simplify commands for the user –
+Views allows the user to select information from multiple tables without requiring the users to actually know how to perform a join.
+
+Store complex queries –
+Views can be used to store complex queries.
+
+Rename Columns –
+Views can also be used to rename the columns without affecting the base tables provided the number of columns in view must match the number of columns specified in select statement. Thus, renaming helps to to hide the names of the columns of the base tables.
+
+Multiple view facility –
+Different views can be created on the same table for different users.
+
+
+---------------------------------------------------------------------------------------------------------------
+Types of Views
+Simple View: A view based on only a single table, which doesn't contain GROUP BY clause and any functions.
+Complex View: A view based on multiple tables, which contain GROUP BY clause and functions.
+
+Inline View: A view based on a subquery in FROM Clause, that subquery creates a temporary table and simplifies the complex query.
+
+Materialized View: A view that stores the definition as well as data. It creates replicas of data by storing it physically
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+
+MySQL temporary tables
+In MySQL, a temporary table is a special type of table that allows you to store a temporary result set, which you can reuse several times in a single session. a temporary table is usually used to store the data of a particular query for further processing
+
+A temporary table is created by using CREATE TEMPORARY TABLE statement. Notice that the keyword TEMPORARY is added between the CREATE and TABLE keywords.
+MySQL removes the temporary table automatically when the session ends or the connection is terminated. Of course, you can use the  DROP TABLE statement to remove a temporary table explicitly when you are no longer use it.
+
+A temporary table is only available and accessible to the client that creates it. Different clients can create temporary tables with the same name without causing errors because only the client that creates the temporary table can see it. However, in the same session, two temporary tables cannot share the same name.
+
+A temporary table can have the same name as a normal table in a database. For example, if you create a temporary table named employees in the sample database, the existing employees table becomes inaccessible. Every query you issue against the employees table is now referring to the temporary table employees. When you drop the employees temporary table, the permanent employees table is available and accessible.
+
+CREATE TEMPORARY TABLE table_name(
+   column_1_definition,
+   column_2_definition,
+   ...,
+   table_constraints
+);
+
+
+CREATE TEMPORARY TABLE temp_table_name
+SELECT * FROM original_table
+LIMIT 0;
+
+---------------------------------------------------------------------------------------------------------------
+
+CREATE TEMPORARY TABLE credits(
+    customerNumber INT PRIMARY KEY,
+    creditLimit DEC(10,2)
+);
+
+
+INSERT INTO credits(customerNumber,creditLimit)
+SELECT customerNumber, creditLimit
+FROM customers
+WHERE creditLimit > 0;
+---------------------------------------------------------------------------------------------------------------
+DROP TEMPORARY TABLE table_name;
+---------------------------------------------------------------------------------------------------------------
+Diff:View vs Temporary tables:
+
+1]Views in SQL are kind of virtual tables. A view also has rows and columns as they are in a real table in the database. We can create a view by selecting fields from one or more tables present in the database. A View can either have all the rows of a table or specific rows based on certain condition.
+In MySQL, a temporary table is a special type of table that allows you to store a temporary result set, which you can reuse several times in a single session. a temporary table is usually used to store the data of a particular query for further processing.
+Temp tables deleted after session ends , views not;
+
+2]A temporary table uses extra storage, whereas a view doesn't.
+
+3]Some views are updatable, and you can write "through" the view to change the source tables. See Updatable and Insertable Views. You can make updates in temporary tables too, but your updates won't be applied to the source tables.
+
+4] data in a view is always current because it is generated dynamically, whereas the data in a temp table reflects the state of the database at the time it was populated. so after creating temp table and views from existing table and again if we add any new record to original table then view gets updated but temporary table not.
+
+5]The key determining factor in choosing between a view or a temp table is performance. If you are going to use data only once, then a view will perform better than a temp table because you don't need to create and populate the base structure, plus a view will guarantee that the results returned are always current. But if you are going to use data repeatedly during a database session then a temp table provides better performance because it only needs to be created once. As always, a trade-off is involved, and you need to be aware of the risk of outdated data with a temp table, and the restrictions on views for manipulating data.
+
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************
+Index:
+An index is a schema object. It is used by the server to speed up the retrieval of rows by using a pointer. It can reduce disk I/O(input/output) by using a rapid path access method to locate data quickly. An index helps to speed up select queries and where clauses, but it slows down data input, with the update and the insert statements. Indexes can be created or dropped with no effect on the data. 
+
+An index is a data structure such as B-Tree that improves the speed of data retrieval on a table at the cost of additional writes and storage to maintain it.
+The query optimizer may use indexes to quickly locate data without having to scan every row in a table for a given query.
+When you create a table with a primary key or unique key, MySQL automatically creates a special index named PRIMARY. This index is called the clustered index.
+The PRIMARY index is special because the index itself is stored together with the data in the same table. The clustered index enforces the order of rows in the table.
+Other indexes other than the PRIMARY index are called secondary indexes or non-clustered indexes.
+By default, MySQL creates the B-Tree index if you don’t specify the index type.
+
+
+CREATE INDEX index
+ ON TABLE (column);
+---------------------------------------------------------------------------------------------------------------
+ CREATE INDEX index
+ ON TABLE (column1, column2,.....);
+---------------------------------------------------------------------------------------------------------------
+CREATE UNIQUE INDEX index
+ ON TABLE column;
+
+Unique indexes are used for the maintenance of the integrity of the data present in the table as well as for the fast performance, it does not allow multiple values to enter into the table. 
+---------------------------------------------------------------------------------------------------------------
+When should indexes be created – 
+A column contains a wide range of values
+A column does not contain a large number of null values
+One or more columns are frequently used together in a where clause or a join condition
+
+When should indexes be avoided – 
+The table is small
+The columns are not often used as a condition in the query
+The column is updated frequently
+---------------------------------------------------------------------------------------------------------------
+DROP INDEX index;
+---------------------------------------------------------------------------------------------------------------
+Altering an Index:  To modify an existing table’s index by rebuilding, or reorganizing the index.
+
+ALTER INDEX IndexName 
+ON TableName REBUILD;
+
+----------------------------------------------------------------------------------------------------------------
+
+Renaming an index – You can use system stored procedure sp_rename to rename any index in the database.
+
+EXEC sp_rename  
+   index_name,  
+   new_index_name,  
+   N'INDEX'; 
+
+ ALTER TABLE employee RENAME INDEX index1 TO index3;
+---------------------------------------------------------------------------------------------------------------
+mysql> EXPLAIN select * from employee where empSalary=30000;
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table    | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | employee | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    6 |    16.67 | Using where |
++----+-------------+----------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> create index index2 on Employee(empSalary);
+Query OK, 0 rows affected (0.39 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> EXPLAIN select * from employee where empSalary=30000;
++----+-------------+----------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+| id | select_type | table    | partitions | type | possible_keys | key    | key_len | ref   | rows | filtered | Extra |
++----+-------------+----------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | employee | NULL       | ref  | index2        | index2 | 9       | const |    1 |   100.00 | NULL  |
++----+-------------+----------+------------+------+---------------+--------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> show indexes from employee;
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table    | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employee |          0 | PRIMARY  |            1 | empId       | A         |           6 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employee |          1 | index1   |            1 | empId       | A         |           6 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employee |          1 | index2   |            1 | empSalary   | A         |           4 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+3 rows in set (0.20 sec)
+
+
+*************************************************************************************************************************************************************
+
+*************************************************************************************************************************************************************

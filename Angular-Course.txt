@@ -1,0 +1,39 @@
+node : used by CLI in background to bundle and optimise angular application
+npm- node package manager - to manage external dependencies(libary needed in application) for angular application.
+
+install angular : nmp install -g @angular/cli@latest
+create app : ng new my-dream-app
+
+Package.json - contains all dependencies of angular application , 3rd party packages that needs to run project correctly.
+		eg. http , forms ,router, animations, platform-browser-dynamic etc.
+		contains dev dependencies only required for developement.  eg. typescript , jasmine-karma , angular-cli etc.
+
+e2e- end to end testing
+
+node modules - all the dependencies we see in package.json are actually installed inside node module folder.
+
+
+src: folders{app , assets , environments},files{ favicon.io , index.html,main.ts , styles.scss , polyfills.ts , test.ts} etc.
+
+app.module.ts - tells angular which pieces belong to angular application.
+_____________________________________________________________________________________________________________________________________________________________
+bootstrap:[AppComponent] - basically lists all the components which should be known to angular at the time when angular analyses index.html(when angular starts whole application).
+
+Errors occured:
+mentioned in bootstrap array and selector not given in index.html --> <app-root> didnt match any element.
+bootstrap:[ ] -->empty array but selector given in index.html --> @NgModule.bootstrap does not have any component / nor ngDoBootstrap method
+
+Component - 
+component is simple typescript class so that angular is able instantiate it to create objects based on blueprint we setup.
+
+Decorator:Decorator is a typescript feature which allow you to enhance your classes , enhance elements we use in our code.
+
+Modules: angular uses modules to bundle different components of an app into packages.
+	Modules bundles funtionalities in an app , it gives information to angular which features current application has.
+	It is a class with @NgModule decorator.This decorator has 4 properties ...
+	declarations:[]--> lists all the components created inside the current module
+	imports :[]--> allows us to add modules to current module which are required to run application
+	providers:[]
+	bootstrap:[]-->asically lists all the components which should be known to angular at the time when angular analyses index.html(when angular starts 			whole application).
+		
+BrowserModule--> gives all the base functionlity we need to start an application

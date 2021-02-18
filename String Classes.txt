@@ -1,0 +1,139 @@
+Primitive vs Reference Types:
+
+Types in Java are divided into two categories—primitive types and reference types. The primitive types are boolean, byte, char, short, int, long, float and double. All other types are reference types, so classes, which specify the types of objects, are reference types.
+Reference datatypes in java are those which contains reference/address of dynamically created objects. These are not predefined like primitive data types.
+
+• A primitive-type variable can store exactly one value of its declared type at a time.
+
+• Primitive-type instance variables are initialized by default. Variables of types byte, char, short, int, long, float and double are initialized to 0. Variables of type boolean are initialized to false.
+
+• Reference-type variables called references store the reference (location) of an object in the computer’s memory. Such variables refer to objects ...
+
+The main difference between primitive and reference type is that primitive type always has a value, it can never be null but reference type can be null, which denotes the absence of value.bydefault value of reference type is null.
+____________________________________________________________________________________________________________________________________________________________
+
+String:
+String is a sequence of characters but it’s not a primitive type.
+String is not built in type , It is reference type.
+It is final class in java.lang package.
+It implements serializable , Comparable<String>,CharSeqeunce interface.
+A string represents a string in the UTF-16 format.
+When we create a string in java, it actually creates an object of type String.
+String is immutable object which means that it cannot be changed once it is created.If we try to modify string then new string object gets created.
+String is the only class where operator overloading is supported in java. We can concat two strings using + operator. For example "a"+"b"="ab".
+Java provides two useful classes for String manipulation – StringBuffer and StringBuilder.
+
+We can create object of string with or without using new keyword.
+1]Using String literal:   String str = "sunbeam"
+
+This is the most common way of creating string. In this case a string literal is enclosed with double quotes.
+When we create a String using double quotes, JVM looks in the String pool(heap region) to find if any other String is stored with same value. If found, it just returns the reference to that String object else it creates a new String object with given value and stores it in the String pool.
+
+2]Using new keyword:      String str = new String("sunbeam")
+  
+String str = "sun" is equal to 
+char data[] = {'s','u','n'};
+String str = new String(data)
+
+We can create String object using new operator, just like any normal java class. There are several constructors available in String class to get String from char array, byte array, StringBuffer and StringBuilder.
+
+
+Methods:
+charAt(),length(),substring(),lastIndexOf(),split(),isEmpty(),valueOf(),compareTo(),concat(),endsWith(),startsWith(),toLowerCase(),toUpperCase(),etc
+____________________________________________________________________________________________________________________________________________________________
+
+*String vs StringBuffer:
+
+Since String is immutable in Java, whenever we do String manipulation like concatenation, substring, etc. it generates a new String and discards the older String for garbage collection.
+
+These are heavy operations and generate a lot of garbage in heap. So Java has provided StringBuffer and StringBuilder classes that should be used for String manipulation.
+
+StringBuffer and StringBuilder are mutable objects in Java. They provide append(), insert(), delete(), and substring() methods for String manipulation.
+
+String ojbects are immutable..StringBuffer objects are mutable
+when we create string objects, we cannot perform any changes in that object , if we try to make any changes , then new object will be created.
+New object wont have any reference so eligible for garbage collection
+
+That is not case with StringBuffer
+
+____________________________________________________________________________________________________________________________________________________________
+
+StringBuffer:(1.0 version)
+It is final class declared in java.lang package.
+It implements serizaliable and Charsequence interface.
+A StringBuffer is like string only but can be modified.i.e it is mutable string object.
+It is synchronized.All the methods are synchronized .Only one thready is allowed to operate on stringbuffer objects.Hence(thready safety)
+Equals and hashcode are not overidden in string buffer.
+It is slower than StringBuilder class.Performance wise not recommened to use(increases waiting time of threads).
+____________________________________________________________________________________________________________________________________________________________
+StringBuilder:(1.5 version)
+It is final class declared in java.lang package.
+It implements serizaliable and Charsequence interface.
+A StringBuilder is like string only but can be modified.i.e it is mutable string object.
+It is unsynchronized.no method is synchronized .multiple threads are allowed to operate on stringbuilder objects.Hence(not thready safety)
+Equals and hashcode are not overidden in string buffer.
+It is faster than StringBuilder class.
+____________________________________________________________________________________________________________________________________________________________
+StringBuffer vs StringBuilder:
+StringBuffer was the only choice for String manipulation until Java 1.4. But, it has one disadvantage that all of its public methods are synchronized.So it is slow. StringBuffer provides Thread safety but at a performance cost.
+So Java 1.5 introduced a new class StringBuilder, which is similar to StringBuffer except for thread-safety and synchronization.
+
+StringBuffer has some extra methods such as substring, length, capacity, trimToSize, etc. However, these are not required since you have all these present in String too. That’s why these methods were never implemented in the StringBuilder class.
+
+If you are in a single-threaded environment or don’t care about thread safety, you should use StringBuilder. Otherwise, use StringBuffer for thread-safe operations.
+____________________________________________________________________________________________________________________________________________________________
+StringTokenizer:
+It is class declared in java.util package.
+It implements Enumeration interface.
+This class allows an application to break a string into tokens.
+It is legacy class , hence anyone seeking this functionality use the split method of String or java.util.regex package instead.
+____________________________________________________________________________________________________________________________________________________________
+
+Enum:
+If we want to give name to the literals then we should use Enum.
+Enum is reference type in java.
+All enums are implicitly extended from java.lang.Enum class which is abstract.
+
+Methods:
+name
+ordinal
+valueof
+getDeclaringclass
+
+
+since enum is implicitly final class we cannot extend enum.
+compiler adds values and valuesof method at compile time in enum.
+we can override methods in enum.
+
+____________________________________________________________________________________________________________________________________________________________
+
+
+Equals() vs == :
+In general both equals() and “==” operator in Java are used to compare objects to check equality but here are some of the differences between the two:
+
+Main difference between .equals() method and == operator is that one is method and other is operator.
+We can use == operators for reference comparison (address comparison) and .equals() method for content comparison. In simple words, == checks if both objects point to the same memory location whereas .equals() evaluates to the comparison of values in the objects.
+If a class does not override the equals method, then by default it uses equals(Object o) method of the closest parent class that has overridden this method
+
+
+public class Test { 
+    public static void main(String[] args) 
+    { 
+        String s1 = new String("HELLO"); 
+        String s2 = new String("HELLO"); 
+        System.out.println(s1 == s2);                false
+        System.out.println(s1.equals(s2));           true
+    } 
+} 
+
+Here we are creating two objects namely s1 and s2.
+Both s1 and s2 refers to different objects.
+When we use == operator for s1 and s2 comparison then the result is false as both have different addresses in memory.
+Using equals, the result is true because its only comparing the values given in s1 and s2.
+
+____________________________________________________________________________________________________________________________________________________________
+
+
+
+
+

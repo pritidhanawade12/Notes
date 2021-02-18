@@ -1,0 +1,392 @@
+Concurrency:
+Process of executing multiple task parellely is called concurrency.It improved execution speed of program.
+It is minor pillar of oops.
+
+
+Multi-tasking:
+Ability of os to execute multiple task at a time is called multi-tasking.
+Multi-tasking can be process based / thread based multi-tasking.
+
+
+Process based Multi-tasking:
+Program in execution is called process./Running instance of a program is called process.
+Each process run in separate address space.
+Each process has its own set of resource.
+A process contains at least one thread.
+Creating and disposing process is relatively time consuming task.
+When CPU executes multiple processes , it first save state of process into process control block(PCB) and then switches to another process.It is called context switching,Since contect switching is heavy , hence process based multi-tasking is also called as heavy weight multi-tasking.
+
+Thread based Multi-tasking:
+Light weight process is called thread./It is a separate path of execution which runs indenpendantly.
+If we want to use hardware resources(CPU) efficiently then we should use thread.
+Thread belongs to same process share the process's address space and code.
+Thread creating is echonomical.
+Since thread executed inside same process , they do not require PCB i.e context switching is not required.so thread based multi-tasking is faster than process based multi-tasking.
+
+Multi-threading:
+If we create application using single thread then it is called as single threaded application.
+If we create application using multiple threads then it is called multi-threaded application.
+Java is multi-threaded programming language.
+Java's multi-threading preemptive which means that a scheduling mechanism provides time slices for each thread and context switching to the another thread , so that each one is given a reasonable time to drive its task.
+
+JVM starts execution of java application , then it starts execution of two threads.
+Main Thread: 
+It is used thread.
+It is responsible for invoking main method.
+
+Garbage collector:
+It is daemon thread.
+It is responsible for reclaming memory of unused objects.
+
+
+User Thread:
+Also called as non-daemon thread.
+New thread created is by default treated as user thread.
+Life span / execution of user thread is do not depends on execution of daemon thread.
+
+Daemon thread:
+Also called as background thread.
+Using setDaemon(true) method we can convert user thread to daemon thread.
+Life span / execution of user thread is depends on execution of daemon thread.
+
+
+Thread Termination:
+If run method executes successfully 
+During execution of run if any exception occurs
+During excecution of run if jvm encounters return statement.
+
+
+Thread vs Runnable:
+If class do not extend any class then we can create thread by extending thread class.
+If class extend sany class then we can create thread by implementing runnable interface.
+If class extends Thread then sub class can ommit from threading.
+If class implements Runnable then all sub classes must participate in threding.
+
+
+start and run method:
+thread.start() do not call run method rather it register's the thread with os via JVM and then run method gets called on object which implements either Runnable interface or extends thread class.
+_____________________________________________________________________________________________________________________________________________________________
+
+
+Program:
+A program is a set of instructions and associated data that resides on the disk and is loaded by the operating system to perform some task.
+An executable file or a python script file are examples of programs. In order to run a program, the operating system's kernel is first asked to create 
+a new process, which is an environment in which a program executes.
+_____________________________________________________________________________________________________________________________________________________________
+Process:
+A program is a set of instructions. It is stored on a disk of a computer and hence it is passive. When the same program is loaded into main memory and is under execution is called a process. Hence a process is a program under execution. So we can say it is active.
+When one process is loaded into the main memory from secondary memory and another process is unloaded from main memory to secondary memory is termed as the swapping of processes.
+A process is a program in execution. A process is an execution environment that consists of instructions, user-data, and system-data segments, as well as 
+lots of other resources such as CPU, memory, address-space, disk and network I/O acquired at runtime. A program can have several copies of it running at 
+the same time but a process necessarily belongs to only one program.A single process can have multiple threads to perform different tasks. Each process has its own memory (called a heap) which is not shared between different processes.
+Process related information is stored in something called PCB(Process control block). Generally, process id, process number, process state, program counter, registers,scheduling algorithms , device info,page table info and opened files are stored in PCB. This PCB is stored in a protected memory area to avoid normal user access as it contains critical information.
+A process can create child processes by using the fork system calls. 
+Short-Term scheduler(CPU Scheduler): Selects a process from the main memory (ready queue) using a scheduling algorithm for processing in CPU.
+Long-Term Scheduler (Job Scheduler): Which processes should be placed into the main memory(ready queue) and which should be in secondary memory is done by this scheduler.
+Medium-Term Scheduler: Swapping of processes is done by a medium-term scheduler.
+_____________________________________________________________________________________________________________________________________________________________
+Thread:
+Thread is the smallest unit of execution in a process.A single thread also has a beginning, a sequence, and an end. a thread itself is not a program;
+ a thread cannot run on its own. Rather, it runs within a program.
+Definition:  A thread is a single sequential flow of control within a program.
+A thread is a segment or part of a process that executes some tasks of the process. A process can have multiple threads which can run concurrently within the process. Each thread has its own stack but multiple threads share a common heap area. Threads are lightweight and faster than processes.
+A Web browser is an example of a multithreaded application. Within a typical browser, you can scroll a page while it’s downloading an applet or an image, 
+play animation and sound concurrently, print a page in the background while you download a new page,
+
+Why threads are light weight processes:
+Threads are sometimes called lightweight processes because they have their own stack but can access shared data. 
+Because threads share the same address space as the process and other threads within the process, the operational cost of communication between the threads is low, which is an advantage
+Every process has their own data,code and OS resources  and the processes requires extra resources to communicate between themselves.
+_____________________________________________________________________________________________________________________________________________________________
+KEY DIFFERENCE:
+Process means a program is in execution, whereas thread means a segment of a process.
+A Process is not Lightweight, whereas Threads are Lightweight.
+A Process takes more time to terminate, and the thread takes less time to terminate.
+Process takes more time for creation, whereas Thread takes less time for creation.
+The process context switching takes more time and is done by the operating system whereas the thread context switching takes less time and does not require an operating system call.
+A Process is mostly isolated, whereas Threads share memory.
+Process does not share data, and Threads share data with each other.
+Process consume more resources.	Thread consume fewer resources.
+The process consumes heavy resources(Memory, IO, etc) than threads.
+The processes do not share memory (heap) whereas the threads share common heap memory.
+_____________________________________________________________________________________________________________________________________________________________
+What is Context Switching:
+Context Switching is the switching of CPU from one process to another process. 
+Context switching means storing the process state(Context means data of CPU registers and program counter anytime.) so that we can reload the process when needed, and the execution of the process can be resumed from the 
+same point later. In context switching, one CPU can be shared among several processes. In other words, context switching is the mechanism that permits a 
+single CPU to handle several threads or processes without the need for extra processors.
+
+Kernel :
+A Kernel is a computer program that is the heart and core of an Operating System.Whenever a system starts, the Kernel is the first program that is loaded after the bootloader because the Kernel has to handle the rest of the thing of the system for the Operating System. The Kernel remains in the memory until the Operating System is shut-down.
+The Kernel is responsible for low-level tasks such as disk management, memory management, task management,resource management,Access Computer resource:  etc. It provides an interface between the user and the hardware components of the system. When a process makes a request to the Kernel, then it is called System Call.
+
+Cache:
+A CPU cache is a hardware cache used by the central processing unit (CPU) of a computer to reduce the average cost (time or energy) to access data from the main memory.
+It is a hardware or software component that stores data so that future requests for that data can be served faster; the data stored in a cache might be the result of an earlier computation or a copy of data stored elsewhere.
+
+What Are the Differences Between Process and Thread Context Switching?
+Process context switching takes place when the operating system’s scheduler saves the current state of the running program(current process) (including the state of PCB) and switches to another process whereas Thread context switching takes place when the CPU saves the current state of the thread and switches to another thread of the same process.
+When PCS happens processor’s cache and Translational Lookaside Buffer get flushed but in the case of TCS processor’s cache and Translational Lookaside Buffer preserves their state.
+PCS involves the heavy cost of changing the process control block hence it is less efficient and slower whereas in the case of TCS there is no need for swapping of PCB and hence it is efficient and faster.
+
+_____________________________________________________________________________________________________________________________________________________________
+
+A translation lookaside buffer (TLB) is a memory cache that is used to reduce the time taken to access a user memory location.
+A translation lookaside buffer (TLB) is a memory cache that stores recent translations of virtual memory to physical addresses for faster retrieval.
+
+
+Multiprogramming – A computer running more than one program at a time (like running Excel and Firefox simultaneously).
+Multi-programming increases CPU utilization by organizing jobs (code and data) so that the CPU always has one to execute. The idea is to keep multiple jobs in main memory. If one job gets occupied with IO, CPU can be assigned to other job. 
+Multiprocessing – A computer using more than one CPU at a time.
+Multitasking – Tasks sharing a common resource (like 1 CPU).
+Multithreading is an extension of multitasking.
+
+_____________________________________________________________________________________________________________________________________________________________
+
+MULTITHREADING in Java is a process of executing two or more threads simultaneously to maximum utilization of CPU. Multithreaded applications execute two or more threads run concurrently. Hence, it is also known as Concurrency in Java. Each thread runs parallel to each other. Mulitple threads don't allocate separate memory area, hence they save memory. Also, context switching between threads takes less time.
+
+_____________________________________________________________________________________________________________________________________________________________
+
+Multithreading is a Java feature that allows concurrent execution of two or more parts of a program for maximum utilization of CPU. Each part of such program is called a thread. So, threads are light-weight processes within a process.
+
+Advantages of multi-threading:
+threads are independent, and we can perform multiple operations at times
+As such the threads are independent, the other threads won't get affected if one thread meets an exception.
+In Multi-Threaded programming, multiple threads are executing concurrently that improves the performance because CPU is not idle incase some thread is waiting to get some resources. Multiple threads share the heap memory, so it’s good to create multiple threads to execute some task rather than creating multiple processes. For example, Servlets are better in performance than CGI because Servlet support multi-threading but CGI doesn’t.
+_____________________________________________________________________________________________________________________________________________________________
+
+New: In this phase, the thread is created using class "Thread class".It remains in this state till the program starts the thread. It is also known as born thread.The thread is in new state if you create an instance of Thread class but before the invocation of start() method.
+
+Runnable: In this page, the instance of the thread is invoked with a start method. The thread control is given to scheduler to finish the execution. It depends on the scheduler, whether to run the thread.The thread is in runnable state after invocation of start() method, but the thread scheduler has not selected it to be the running thread.
+
+Running: When the thread starts executing, then the state is changed to "running" state. The scheduler selects one thread from the thread pool, and it starts executing in the application.The thread is in running state if the thread scheduler has selected it.
+
+Waiting: This is the state when a thread has to wait. As there multiple threads are running in the application, there is a need for synchronization between threads. Hence, one thread has to wait, till the other thread gets executed. Therefore, this state is referred as waiting state.
+Non-Runnable (Blocked)
+This is the state when the thread is still alive, but is currently not eligible to run.
+Blocked/Waiting state:When a thread is temporarily inactive, then it’s in one of the following states:
+Blocked
+Waiting
+For example, when a thread is waiting for I/O to complete, it lies in the blocked state. It’s the responsibility of the thread scheduler to reactivate and schedule a blocked/waiting thread. A thread in this state cannot continue its execution any further until it is moved to runnable state. Any thread in these states does not consume any CPU cycle.
+A thread is in the blocked state when it tries to access a protected section of code that is currently locked by some other thread. When the protected section is unlocked, the schedule picks one of the thread which is blocked for that section and moves it to the runnable state. Whereas, a thread is in the waiting state when it waits for another thread on a condition. When this condition is fulfilled, the scheduler is notified and the waiting thread is moved to runnable state.
+If a currently running thread is moved to blocked/waiting state, another thread in the runnable state is scheduled by the thread scheduler to run. It is the responsibility of thread scheduler to determine which thread to run.
+
+Timed Waiting: A thread lies in timed waiting state when it calls a method with a time out parameter. A thread lies in this state until the timeout is completed or until a notification is received. For example, when a thread calls sleep or a conditional wait, it is moved to a timed waiting state.
+
+Dead or Terminated: This is the state when the thread is terminated. The thread is in running state and as soon as it completed processing it is in "dead state".
+A thread is in terminated or dead state when its run() method exits.
+
+If run method executes successfully 
+During execution of run if any exception occurs
+During excecution of run if jvm encounters return statement.
+_____________________________________________________________________________________________________________________________________________________________
+start()	This method starts the execution of the thread and JVM calls the run() method on the thread.
+Sleep(int milliseconds)	This method makes the thread sleep hence the thread's execution will pause for milliseconds provided and after that, again the thread starts executing. This help in synchronization of the threads.
+getName()	It returns the name of the thread.
+setPriority(int newpriority)	It changes the priority of the thread.
+yield ()	It causes current thread on halt and other threads to execute.
+
+_____________________________________________________________________________________________________________________________________________________________
+Race condition:
+A race condition occurs when two or more threads can access shared data and they try to change it at the same time. Because the thread scheduling algorithm can swap between threads at any time, you don't know the order in which the threads will attempt to access the shared data.
+_____________________________________________________________________________________________________________________________________________________________
+Critical Section:
+A critical section is a block of code that accesses a shared resource and can't be executed by more than one thread at the same time. ... When a thread wants access to a critical section, it uses one of these synchronization mechanisms to find out whether there is any other thread executing the critical section
+
+_____________________________________________________________________________________________________________________________________________________________
+Java Thread Synchronization:
+Synchronization in java is the capability to control the access of multiple threads to any shared resource. So it needs to be made sure by some synchronization method that only one thread can access the resource at a given point of time.
+In multithreading, there is the asynchronous behavior of the programs. If one thread is writing some data and another thread which is reading data at the same time, might create inconsistency in the application.
+
+When there is a need to access the shared resources by two or more threads, then synchronization approach is utilized.
+
+Java has provided synchronized methods to implement synchronized behavior.
+
+In this approach, once the thread reaches inside the synchronized block, then no other thread can call that method on the same object. All threads have to wait till that thread finishes the synchronized block and comes out of that.
+
+This synchronization is implemented in Java with a concept called monitors. Only one thread can own a monitor at a given time. When a thread acquires a lock, it is said to have entered the monitor. All other threads attempting to enter the locked monitor will be suspended until the first thread exits the monitor.
+_____________________________________________________________________________________________________________________________________________________________
+Deadlock:
+Deadlock is a situation or condition when two or more processes are holding some resources and trying to acquire some more resources, and they can not release the resources until they finish there execution.
+
+Resource A and resource B are used by process X and process Y
+X starts to use A.
+X and Y try to start using B
+Y 'wins' and gets B first
+now Y needs to use A
+A is locked by X, which is waiting for Y
+
+there are two process P1 and p2 and there are two resources R1 and R2.
+
+Resource R1 is allocated to process P1 and resource R2 is allocated to process p2. To complete execution of process P1 needs resource R2, so P1 request for R2, but R2 is already allocated to P2.
+
+In the same way Process P2 to complete its execution needs R1, but R1 is already allocated to P1.
+
+both the processes can not release their resource until and unless they complete their execution. So both are waiting for another resources and they will wait forever. So this is a DEADLOCK Condition.
+
+Mutual exclusion - Each resource is either currently allocated to exactly one process or it is available. (Two processes cannot simultaneously control the same resource or be in their critical section).
+Hold and Wait - processes currently holding resources can request new resources.
+No preemption - Once a process holds a resource, it cannot be taken away by another process or the kernel.
+Circular wait - Each process is waiting to obtain a resource which is held by another process.
+_____________________________________________________________________________________________________________________________________________________________
+
+
+Threads can be created by using two mechanisms :
+1. Extending the Thread class
+2. Implementing the Runnable Interface
+
+1.Thread creation by extending the Thread class:
+We create a class that extends the java.lang.Thread class. This class overrides the run() method available in the Thread class. A thread begins its life inside run() method. We create an object of our new class and call start() method to start the execution of a thread. Start() invokes the run() method on the Thread object.
+
+// Java code for thread creation by extending 
+// the Thread class 
+class MultithreadingDemo extends Thread 
+{ 
+	public void run() 
+	{ 
+		try
+		{ 
+			// Displaying the thread that is running 
+			System.out.println ("Thread " + 
+				Thread.currentThread().getId() + 
+				" is running"); 
+
+		} 
+		catch (Exception e) 
+		{ 
+			// Throwing an exception 
+			System.out.println ("Exception is caught"); 
+		} 
+	} 
+} 
+
+// Main Class 
+public class Multithread 
+{ 
+	public static void main(String[] args) 
+	{ 
+		int n = 8; // Number of threads 
+		for (int i=0; i<n; i++) 
+		{ 
+			MultithreadingDemo object = new MultithreadingDemo(); 
+			object.start(); 
+		} 
+	} 
+} 
+
+_____________________________________________________________________________________________________________________________________________________________
+
+2.Thread creation by implementing the Runnable Interface:
+We create a new class which implements java.lang.Runnable interface and override run() method. Then we instantiate a Thread object and call start() method on this object.
+
+// Java code for thread creation by implementing 
+// the Runnable Interface 
+class MultithreadingDemo implements Runnable 
+{ 
+	public void run() 
+	{ 
+		try
+		{ 
+			// Displaying the thread that is running 
+			System.out.println ("Thread " + 
+								Thread.currentThread().getId() + 
+								" is running"); 
+
+		} 
+		catch (Exception e) 
+		{ 
+			// Throwing an exception 
+			System.out.println ("Exception is caught"); 
+		} 
+	} 
+} 
+
+// Main Class 
+class Multithread 
+{ 
+	public static void main(String[] args) 
+	{ 
+		int n = 8; // Number of threads 
+		for (int i=0; i<n; i++) 
+		{ 
+			Thread object = new Thread(new MultithreadingDemo()); 
+			object.start(); 
+		} 
+	} 
+} 
+_____________________________________________________________________________________________________________________________________________________________
+
+Thread Class vs Runnable Interface
+1. If we extend the Thread class, our class cannot extend any other class because Java doesn’t support multiple inheritance. But, if we implement the Runnable interface, our class can still extend other base classes.
+
+2. We can achieve basic functionality of a thread by extending Thread class because it provides some inbuilt methods like yield(), interrupt() etc. that are not available in Runnable interface.
+
+_____________________________________________________________________________________________________________________________________________________________
+*What is difference between user Thread and daemon Thread?
+When we create a Thread in java program, it’s known as user thread. A daemon thread runs in background and doesn’t prevent JVM from terminating. When there are no user threads running, JVM shutdown the program and quits. A child thread created from daemon thread is also a daemon thread.
+
+Daemon threads are low priority threads which always run in background and user threads are high priority threads which always run in foreground. Which means they won't get CPU as easily as a user thread can get.User Thread or Non-Daemon are designed to do specific or complex task where as daemon threads are used to perform supporting tasks(garbage collection)
+
+JVM will not wait for daemon thread to finish their work but it will wait for any active user thread.
+daemon thread is mostly created by JVM e.g. for some garbage collection job. On the other hand user thread is usually created by the application for executing some task concurrently.
+_____________________________________________________________________________________________________________________________________________________________
+*What are different states in lifecycle of Thread?
+When we create a Thread in java program, its state is New. Then we start the thread that change it’s state to Runnable. Thread Scheduler is responsible to allocate CPU to threads in Runnable thread pool and change their state to Running. Other Thread states are Waiting, Blocked and Dead.
+_____________________________________________________________________________________________________________________________________________________________
+What do you understand about Thread Priority?
+Every thread has a priority, usually higher priority thread gets precedence in execution but it depends on Thread Scheduler implementation that is OS dependent. We can specify the priority of thread but it doesn’t guarantee that higher priority thread will get executed before lower priority thread. Thread priority is an int whose value varies from 1 to 10 where 1 is the lowest priority thread and 10 is the highest priority thread.
+_____________________________________________________________________________________________________________________________________________________________
+What is context-switching in multi-threading?
+Context Switching is the process of storing and restoring of CPU state so that Thread execution can be resumed from the same point at a later point of time. Context Switching is the essential feature for multitasking operating system and support for multi-threaded environment.
+_____________________________________________________________________________________________________________________________________________________________
+What is Thread Scheduler and Time Slicing?
+Thread Scheduler is the Operating System service that allocates the CPU time to the available runnable threads. Once we create and start a thread, it’s execution depends on the implementation of Thread Scheduler. Time Slicing is the process to divide the available CPU time to the available runnable threads. Allocation of CPU time to threads can be based on thread priority or the thread waiting for longer time will get more priority in getting CPU time. Thread scheduling can’t be controlled by java, so it’s always better to control it from application itself.
+_____________________________________________________________________________________________________________________________________________________________
+How can we make sure main() is the last thread to finish in Java Program?
+We can use Thread join() method to make sure all the threads created by the program is dead before finishing the main function.
+
+Java Thread join method can be used to pause the current thread execution until unless the specified thread is dead.
+This java thread join method puts the current thread on wait until the thread on which it’s called is dead
+_____________________________________________________________________________________________________________________________________________________________
+How does thread communicate with each other?
+When threads share resources, communication between Threads is important to coordinate their efforts. Object class wait(), notify() and notifyAll() methods allows threads to communicate about the lock status of a resource.
+_____________________________________________________________________________________________________________________________________________________________
+Why thread communication methods wait(), notify() and notifyAll() are in Object class?
+In Java every Object has a monitor and wait, notify methods are used to wait for the Object monitor or to notify other threads that Object monitor is free now. There is no monitor on threads in java and synchronization can be used with any Object, that’s why it’s part of Object class so that every class in java has these essential methods for inter thread communication.
+_____________________________________________________________________________________________________________________________________________________________
+Why wait(), notify() and notifyAll() methods have to be called from synchronized method or block?
+When a Thread calls wait() on any Object, it must have the monitor on the Object that it will leave and goes in wait state until any other thread call notify() on this Object. Similarly when a thread calls notify() on any Object, it leaves the monitor on the Object and other waiting threads can get the monitor on the Object. Since all these methods require Thread to have the Object monitor, that can be achieved only by synchronization, they need to be called from synchronized method or block.
+_____________________________________________________________________________________________________________________________________________________________
+Why Thread sleep() and yield() methods are static?
+Thread sleep() and yield() methods work on the currently executing thread. So there is no point in invoking these methods on some other threads that are in wait state. That’s why these methods are made static so that when this method is called statically, it works on the current executing thread and avoid confusion to the programmers who might think that they can invoke these methods on some non-running threads.
+___________________________________________________________________________________________
+How can we achieve thread safety in Java?
+There are several ways to achieve thread safety in java – synchronization, atomic concurrent classes, implementing concurrent Lock interface, using volatile keyword, using immutable classes and Thread safe classes. Learn more at thread safety tutorial.
+_____________________________________________________________________________________________________________________________________________________________
+What is volatile keyword in Java
+When we use volatile keyword with a variable, all the threads read it’s value directly from the memory and don’t cache it. This makes sure that the value read is the same as in the memory.
+_____________________________________________________________________________________________________________________________________________________________
+Which is more preferred – Synchronized method or Synchronized block?
+Synchronized block is more preferred way because it doesn’t lock the Object, synchronized methods lock the Object and if there are multiple synchronization blocks in the class, even though they are not related, it will stop them from execution and put them in wait state to get the lock on Object
+_____________________________________________________________________________________________________________________________________________________________
+How to create daemon thread in Java?
+Thread class setDaemon(true) can be used to create daemon thread in java. We need to call this method before calling start() method else it will throw IllegalThreadStateException.
+____________________________________________________________________________________________________________________________________________________________
+What is ThreadLocal?
+Java ThreadLocal is used to create thread-local variables. We know that all threads of an Object share it’s variables, so if the variable is not thread safe, we can use synchronization but if we want to avoid synchronization, we can use ThreadLocal variables.
+Every thread has its own ThreadLocal variable and they can use it gets () and set() methods to get the default value or change it’s value local to Thread. ThreadLocal instances are typically private static fields in classes that wish to associate the state with a thread. 
+_____________________________________________________________________________________________________________________________________________________________
+What is thread pool?
+Java Thread pool represents a group of worker threads that are waiting for the job and reuse many times. In case of thread pool, a group of fixed size threads are created. A thread from the thread pool is pulled out and assigned a job by the service provider.
+_____________________________________________________________________________________________________________________________________________________________
+
+_____________________________________________________________________________________________________________________________________________________________
+
+_____________________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+

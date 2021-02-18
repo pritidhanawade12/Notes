@@ -1,0 +1,63 @@
+Default and static methods in interface
+@FunctionalInterface annotation(predicate , consumer)
+Lambda expressions
+stream api
+LocalDate , LocalTime , LocalDateTime(support for time zone)
+foreach method
+
+_____________________________________________________________________________________________________________________________________________________________
+
+Default Methods:
+Interfaces contains only abstract methods.All methods are public and abstract bydefault.
+Default methods helps in achieving addition of new method to interface without need to change existing classes.
+
+_____________________________________________________________________________________________________________________________________________________________
+
+Static methods:
+If you want to provide a default implementation which cannot be change.
+Static methods cannot be overriden.
+Access via interface name or object of class implementing interface.
+
+_____________________________________________________________________________________________________________________________________________________________
+
+Lambda Expressions:
+
+Lambda Expressions are basically functions with no name and indentifiers.
+Promotes functional programming(no use of annonymous implementation , less code).
+used to provide implementation to functional interfaces.
+__________________________________________________
+Writing lambda expressions:
+No parameter                               : ()->expression
+Multiple parameneter , single statement    : (parameters)->expression
+Multiple parameneter , multiple statements : (parameters)->{multiple expression}
+__________________________________________________
+Printing User details (Id , Name):
+
+List<User> list = new ArrayList<>();
+list.forEach(user->
+{
+System.out.println(user.getId);
+System.out.println(user.getName);
+
+}
+)
+_____________________________________________________________________________________________________________________________________________________________
+
+@FunctionalInterface
+If this annotation is used , it will force compiler to check whether the given interface has single method or not .
+If not compiler will throw error, "Unexpected @FunctionalInterface" annotation.
+It is optional to use , but when we use , compiler will check whether the given interface has single method or not.
+
+_____________________________________________________________________________________________________________________________________________________________
+How to avoid null pointer exception in java?
+Concept of optional to avoid null pointer exception.
+
+String value = null;   --->  null pointer exception
+
+Optional<String> value = Optional.empty();
+_____________________________________________________________________________________________________________________________________________________________
+Stream :
+Streams are just sequence of data from a source.
+With java 8 , we can do manipulation on data using stream api.
+Eg. Youtube streaming(data is not visible at a time)
+

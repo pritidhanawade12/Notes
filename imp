@@ -1,0 +1,6 @@
+1]Angular project creation...permission denied error::
+
+sudo npm cache clean --force --unsafe-perm
+and then npm i goes normally
+
+_____________________________________________________________________________________________________________________
